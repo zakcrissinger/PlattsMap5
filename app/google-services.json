@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1032965164629",
+    "firebase_url": "https://plattsmap-navigation.firebaseio.com",
+    "project_id": "plattsmap-navigation",
+    "storage_bucket": "plattsmap-navigation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032965164629:android:18f2d2f7a354fc849ecedc",
+        "android_client_info": {
+          "package_name": "com.example.plattsmapnavigation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032965164629-3a6fokdpiijfpnmcqhh6k5fbartm2afq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.plattsmapnavigation",
+            "certificate_hash": "03324644c8a12869ab73e399dd1f2afb0a10e59b"
+          }
+        },
+        {
+          "client_id": "1032965164629-pto6goc2cb54jm2drrgn5idm9uujgiso.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARVBAwCoRPJ912jb1ookon_vI9Wndmdcw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032965164629-pto6goc2cb54jm2drrgn5idm9uujgiso.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PlattsMap Navigation.iml" filepath="$PROJECT_DIR$/PlattsMap Navigation.iml" group="PlattsMap Navigation" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="PlattsMap Navigation/app" />
+    </modules>
+  </component>
+</project>
