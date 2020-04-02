@@ -7,6 +7,12 @@
     <item
         android:id="@+id/Profile"
         android:title="Profile"/>
+    <item
+        android:id="@+id/EntSched"
+        android:title="Enter Schedule"/>
+    <item
+        android:id="@+id/ViewSched"
+        android:title="View Schedule"/>
 
     <item
     android:id="@+id/help"
@@ -15,8 +21,5 @@
     <item
         android:id="@+id/signout"
         android:title="Sign out"/>
-
-
-m
 
 </menu>
