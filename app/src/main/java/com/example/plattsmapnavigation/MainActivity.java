@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
         toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawerOpen,R.string.drawerClose);
         drawerLayout.addDrawerListener(toggle);
@@ -55,6 +55,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.CampusMap:
                 Intent i =new Intent(MainActivity.this,MapsActivity.class);
                 startActivity(i);
+                break;
+            case R.id.EntSched:
+                Intent k =new Intent(MainActivity.this,InputScheduleActivity.class);
+                startActivity(k);
+                break;
+            case R.id.ViewSched:
+                Intent l = new Intent(MainActivity.this,ScheduleActivity.class);
+                startActivity(l);
                 break;
 
             case R.id.help:
