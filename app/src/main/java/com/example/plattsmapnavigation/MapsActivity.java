@@ -56,7 +56,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         locationRequest = new LocationRequest();
-        locationRequest.setInterval(7500); //use a value fo about 10 to 15s for a real app
+        //how long it takes for location to update, quicker updates require more battery
+        locationRequest.setInterval(15000);
+        //how long it takes for location to update if an app is running location services in the background
         locationRequest.setFastestInterval(5000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
