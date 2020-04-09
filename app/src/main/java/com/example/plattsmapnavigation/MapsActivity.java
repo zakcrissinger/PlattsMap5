@@ -1,9 +1,5 @@
 package com.example.plattsmapnavigation;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -15,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -28,6 +28,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+//import com.google.maps.GeoApiContext;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,12 +37,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private static final int MY_PERMISSION_FINE_LOCATION = 101;
+    Double myLongitude = null;
     Button markLocation;
     Double myLatitude = null;
-    Double myLongitude = null;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
+    //private GeoApiContext mGeoApiContext;
 
     public MapsActivity() {
     }
@@ -56,8 +58,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         locationRequest = new LocationRequest();
+
         //how long it takes for location to update, quicker updates require more battery
         locationRequest.setInterval(15000);
+
         //how long it takes for location to update if an app is running location services in the background
         locationRequest.setFastestInterval(5000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -88,6 +92,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    /*
+     */
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -100,6 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapSearch(View view) {
         EditText locationSearch = (EditText) findViewById(R.id.editText);
         String location = locationSearch.getText().toString();
+        String snippet = "Tap here for directions to ";
         List<Address> addressList = null;
 
         if (location != null || !location.equals("")) {
@@ -112,7 +120,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+            mMap.addMarker(new MarkerOptions().position(latLng).title(location).snippet(snippet + location));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         }
     }
