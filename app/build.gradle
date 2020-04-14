@@ -28,7 +28,7 @@ android {
 
 }
 
-//for google maps directions
+//for google maps directions api
 repositories {
     mavenCentral()
 }

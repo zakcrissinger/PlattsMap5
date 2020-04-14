@@ -40,6 +40,15 @@ import com.google.maps.model.DirectionsResult;
 import java.io.IOException;
 import java.util.List;
 
+//import android.os.Handler;
+//import android.os.Looper;
+//import androidx.core.content.ContextCompat;
+//import com.google.android.gms.maps.model.Polyline;
+//import com.google.android.gms.maps.model.PolylineOptions;
+//import com.google.maps.internal.PolylineEncoding;
+//import com.google.maps.model.DirectionsRoute;
+//import java.util.ArrayList;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = "MapsActivity";
@@ -106,6 +115,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    /*
+    private void addPolylinesToMap(final DirectionsResult result){
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                //Log.d(TAG, "run: result routes: " + result.routes.length);
+
+                for(DirectionsRoute route: result.routes){
+                    //Log.d(TAG, "run: leg: " + route.legs[0].toString());
+                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
+
+                    List<com.google.maps.model.LatLng> newDecodedPath = new ArrayList<>();
+
+                    // This loops through all the LatLng coordinates of ONE polyline.
+                    for(com.google.maps.model.LatLng latLng: decodedPath){
+
+                        //Log.d(TAG, "run: latlng: " + latLng.toString());
+
+                        newDecodedPath.add(new com.google.maps.model.LatLng(
+                                latLng.lat,
+                                latLng.lng
+                        ));
+                    }
+                    Polyline polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
+                    polyline.setColor(ContextCompat.getColor(MapsActivity.this, R.color.white));
+                    polyline.setClickable(true);
+
+                }
+            }
+        });
+    }*/
+
     private void calculateDirections(Marker marker){
         Log.d(TAG, "calculateDirections: calculating directions.");
 
@@ -130,6 +171,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d(TAG, "calculateDirections: duration: " + result.routes[0].legs[0].duration);
                 Log.d(TAG, "calculateDirections: distance: " + result.routes[0].legs[0].distance);
                 Log.d(TAG, "calculateDirections: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
+
+                //addPolylinesToMap(result);
             }
 
             @Override
