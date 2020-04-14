@@ -36,9 +36,7 @@ public class ScheduleActivity extends AppCompatActivity {
             while((text = br.readLine())!=null){
                 String[] texts = new String[4];
                 texts = text.split(" ");
-                //sb.append(text).append("\n");
                 addRow(table, texts);
-                //text1.setText(text);
                 System.out.println(text);
             }
         } catch (FileNotFoundException e) {
@@ -46,24 +44,10 @@ public class ScheduleActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*try {
-            text.setText("try");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                text.setText(data);
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            Toast.makeText(ScheduleActivity.this, "CATCH.",Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }*/
-
         }
     private void addRow(TableLayout table, String[] texts){
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        // int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
         final TableRow r1 = new TableRow(this);
         r1.setLayoutParams(new TableRow.LayoutParams(
