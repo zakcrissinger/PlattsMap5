@@ -171,11 +171,6 @@ public class InputScheduleActivity extends AppCompatActivity {
             EditText _loc = findViewById(i+1);
             EditText _start = findViewById(i+2);
             EditText _end = findViewById(i+3);
-            /*if (_class.getText().equals("") || _loc.getText().equals("") ||_start.getText().equals("")  ||_end.getText().equals("")){
-                myObj.close();
-                Toast.makeText(InputScheduleActivity.this, "Fill in all text fields",Toast.LENGTH_SHORT).show();
-                break;
-            }*/
             String text = _class.getText() + " " + _loc.getText() + " " + _start.getText() + " " + _end.getText() + "\n";
             myObj.write(text.getBytes());
             i += 5;

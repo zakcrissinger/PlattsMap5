@@ -18,7 +18,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-//SignUpActivity activity
 public class SignUpActivity extends AppCompatActivity {
     EditText emailID, password;
     Button btnSignUp;
@@ -54,10 +53,11 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(!task.isSuccessful()){
-                                Toast.makeText(SignUpActivity.this, "SignUpActivity Unsuccessful, Please Try Again.",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUpActivity.this, "Sign up Unsuccessful, Please Try Again.",Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                startActivity(new Intent(SignUpActivity.this, MapsActivity.class));
+                                startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
+                                Toast.makeText(SignUpActivity.this, "Sign up successful! Please log in.",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

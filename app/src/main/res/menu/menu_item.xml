@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/menu">
     <item
         android:id="@+id/CampusMap"
         android:title="Campus Map"
         />
-    <item
+    <!--<item
         android:id="@+id/Profile"
-        android:title="Profile"/>
+        android:title="Profile"/>-->
     <item
         android:id="@+id/EntSched"
         android:title="Enter Schedule"/>
@@ -15,7 +15,7 @@
         android:title="View Schedule"/>
 
     <item
-    android:id="@+id/help"
+    android:id="@+id/signin"
     android:title="Sign in"/>
 
     <item
