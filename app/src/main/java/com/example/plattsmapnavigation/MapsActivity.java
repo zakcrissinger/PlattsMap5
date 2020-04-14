@@ -1,6 +1,8 @@
 package com.example.plattsmapnavigation;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -27,13 +29,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 //import com.google.maps.GeoApiContext;
 
 import java.io.IOException;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private static final int MY_PERMISSION_FINE_LOCATION = 101;
@@ -168,6 +171,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnInfoWindowClickListener(this);
         LatLng one = new LatLng(44.6950, -73.4669);
         LatLng two = new LatLng(44.6920, -73.463);
 
@@ -192,6 +196,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSION_FINE_LOCATION);
             }
+        }
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        //Toast.makeText(this, "Location Tapped", Toast.LENGTH_SHORT).show();
+
+        if ( marker.getTitle().equals("My Location") ) {
+            marker.hideInfoWindow();
+        } else {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Show Directions for: ")
+                    .setCancelable(true)
+                    .setPositiveButton("Driving", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                   .setNeutralButton("Walking", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           dialog.dismiss();
+                       }
+                   })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
         }
     }
 }
