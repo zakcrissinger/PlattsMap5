@@ -9,7 +9,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,22 +31,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.DirectionsApiRequest;
-import com.google.maps.GeoApiContext;
-import com.google.maps.PendingResult;
-import com.google.maps.model.DirectionsResult;
 
 import java.io.IOException;
 import java.util.List;
-
-//import android.os.Handler;
-//import android.os.Looper;
-//import androidx.core.content.ContextCompat;
-//import com.google.android.gms.maps.model.Polyline;
-//import com.google.android.gms.maps.model.PolylineOptions;
-//import com.google.maps.internal.PolylineEncoding;
-//import com.google.maps.model.DirectionsRoute;
-//import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
@@ -60,7 +46,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    private GeoApiContext mGeoApiContext = null;
 
     public MapsActivity() {
     }
@@ -73,12 +58,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        if (mGeoApiContext == null) {
-            mGeoApiContext = new GeoApiContext.Builder()
-                    .apiKey(getString(R.string.google_maps_key))
-                    .build();
-        }
 
         locationRequest = new LocationRequest();
 
@@ -115,38 +94,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+
     /*
-    private void addPolylinesToMap(final DirectionsResult result){
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                //Log.d(TAG, "run: result routes: " + result.routes.length);
-
-                for(DirectionsRoute route: result.routes){
-                    //Log.d(TAG, "run: leg: " + route.legs[0].toString());
-                    List<com.google.maps.model.LatLng> decodedPath = PolylineEncoding.decode(route.overviewPolyline.getEncodedPath());
-
-                    List<com.google.maps.model.LatLng> newDecodedPath = new ArrayList<>();
-
-                    // This loops through all the LatLng coordinates of ONE polyline.
-                    for(com.google.maps.model.LatLng latLng: decodedPath){
-
-                        //Log.d(TAG, "run: latlng: " + latLng.toString());
-
-                        newDecodedPath.add(new com.google.maps.model.LatLng(
-                                latLng.lat,
-                                latLng.lng
-                        ));
-                    }
-                    Polyline polyline = mMap.addPolyline(new PolylineOptions().addAll(newDecodedPath));
-                    polyline.setColor(ContextCompat.getColor(MapsActivity.this, R.color.white));
-                    polyline.setClickable(true);
-
-                }
-            }
-        });
-    }*/
-
     private void calculateDirections(Marker marker){
         Log.d(TAG, "calculateDirections: calculating directions.");
 
@@ -181,7 +130,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
-    }
+    }*/
 
     /**
      * Manipulates the map once available.
@@ -296,14 +245,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .setPositiveButton("Driving", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            calculateDirections(marker);
                             dialog.dismiss();
                         }
                     })
                    .setNeutralButton("Walking", new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
-                           calculateDirections(marker);
                            dialog.dismiss();
                        }
                    })
