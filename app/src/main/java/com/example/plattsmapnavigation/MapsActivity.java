@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.graphics.Color;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -51,6 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleMap.OnPolylineClickListener {
 
     private static final int MY_PERMISSION_FINE_LOCATION = 101;
+    private static final String google_maps_api_key = "AIzaSyAa0tDqcRDBZC40QHjQcIbXglBc9E_JL_8";
     //private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
     Button markLocation;
@@ -251,7 +251,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void calculateDirectionsDriving(Marker marker) {
         LatLng mDestination = marker.getPosition();
         Routing routing = new Routing.Builder()
-                .key("AIzaSyAa0tDqcRDBZC40QHjQcIbXglBc9E_JL_8")
+                .key(google_maps_api_key)
                 .travelMode(AbstractRouting.TravelMode.DRIVING)
                 .withListener(this)
                 .alternativeRoutes(true)
@@ -263,6 +263,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void calculateDirectionsWalking(Marker marker) {
         LatLng mDestination = marker.getPosition();
         Routing routing = new Routing.Builder()
+                .key(google_maps_api_key)
                 .travelMode(AbstractRouting.TravelMode.WALKING)
                 .withListener(this)
                 .alternativeRoutes(true)
