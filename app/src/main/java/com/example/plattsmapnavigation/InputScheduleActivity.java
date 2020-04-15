@@ -13,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,21 +24,22 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InputScheduleActivity extends AppCompatActivity {
     Button btnEnterSched, addClass;
     boolean flag = true;
     public int count = 0;
-    private StorageReference mStorageRef;
+    private DocumentReference mDocRef;
     public static final String FILE_NAME = "classes_1.txt";
     private int[] IDs= new int[50];
 
@@ -66,7 +68,6 @@ public class InputScheduleActivity extends AppCompatActivity {
         edit_class.setWidth(width/4);
         count +=1;
         r1.addView(edit_class);
-        //loc text
         EditText edit_loc = new EditText(this);
         edit_loc.setId(IDs[count]);
         edit_loc.setInputType(96);
@@ -129,7 +130,6 @@ public class InputScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setIDs();
-        mStorageRef = FirebaseStorage.getInstance().getReference();
         setContentView(R.layout.activity_input_schedule);
         btnEnterSched = findViewById(R.id.EnterBtn);
         btnEnterSched.setOnClickListener(new View.OnClickListener(){
@@ -171,36 +171,22 @@ public class InputScheduleActivity extends AppCompatActivity {
             EditText _loc = findViewById(i+1);
             EditText _start = findViewById(i+2);
             EditText _end = findViewById(i+3);
-            /*if (_class.getText().equals("") || _loc.getText().equals("") ||_start.getText().equals("")  ||_end.getText().equals("")){
-                myObj.close();
-                Toast.makeText(InputScheduleActivity.this, "Fill in all text fields",Toast.LENGTH_SHORT).show();
-                break;
-            }*/
             String text = _class.getText() + " " + _loc.getText() + " " + _start.getText() + " " + _end.getText() + "\n";
             myObj.write(text.getBytes());
+            AddSchedToFirestore(_class.getText().toString(), _loc.getText().toString(), _start.getText().toString(), _end.getText().toString());
             i += 5;
         }
         myObj.close();
-        /*
-        Uri file = Uri.fromFile(new File(FILE_NAME));
-        StorageReference classesRef = mStorageRef.child(FILE_NAME);
 
-        classesRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        //Toast.makeText(InputScheduleActivity.this, "SUCCESS.",Toast.LENGTH_SHORT).show();
-                        // Get a URL to the uploaded content
-                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception exception) {
-                        Toast.makeText(InputScheduleActivity.this, "FAIL.",Toast.LENGTH_SHORT).show();
-                        // Handle unsuccessful uploads
-                        // ...
-                    }
-                });*/
 
+    }
+    public void AddSchedToFirestore(String classN, String loc, String start, String end ){
+        mDocRef = FirebaseFirestore.getInstance().document("users/"+SignInStatus.UserName+"/schedules/Fall2020/classes/");
+        Map<String, Object> dataToSave = new HashMap<String, Object>();
+        dataToSave.put("className", classN);
+        dataToSave.put("locationName", loc);
+        dataToSave.put("startTime", start);
+        dataToSave.put("endTime", end);
+        mDocRef.set(dataToSave);
     }
 }
