@@ -3,6 +3,7 @@ package com.example.plattsmapnavigation;
 import android.Manifest;
 import android.app.AlertDialog;
 //import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -10,8 +11,11 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -77,6 +81,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         polylinesList = new ArrayList<>();
+        polylinesList = new ArrayList<>();
+        //get the spinner from the xml.
+        Spinner dropdown = findViewById(R.id.spinner);
+//create a list of items for the spinner.
+        String[] items = new String[]{"GO TO...","Home", "Edit Schedule", "View Schedule"};
+//create an adapter to describe how the items are displayed, adapters are used in several places in android.
+//There are multiple variations of this, but this is the basic variant.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+//set the spinners adapter to the previously created one.
+        dropdown.setAdapter(adapter);
+
+
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                String str = (String) arg0.getSelectedItem();
+
+                switch(str){
+                    case "Home":
+                        Intent intent = new Intent(MapsActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    case "Edit Schedule":
+
+                    case "View Schedule":
+                        Intent intent1 = new Intent(MapsActivity.this,InputScheduleActivity.class);
+                        startActivity(intent1);
+                        break;
+
+
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
 
         locationRequest = new LocationRequest();
 
@@ -186,8 +235,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnPolylineClickListener(this);
-        LatLng one = new LatLng(44.6950, -73.4669);
-        LatLng two = new LatLng(44.6920, -73.463);
+        LatLng one = new LatLng(44.6960, -73.4669);
+        LatLng two = new LatLng(44.6920, -73.46);
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 

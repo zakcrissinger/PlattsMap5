@@ -14,6 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/firstImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
@@ -21,14 +25,7 @@
             android:id="@+id/toolbar"
             android:background="@color/red"/>
 
-        <fragment
-            android:id="@+id/map"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar"
-            android:layout_marginTop="0dp"
-            tools:context=".MapsActivity" />
+
 
 
     </RelativeLayout>
