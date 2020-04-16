@@ -56,8 +56,8 @@ public class SignUpActivity extends AppCompatActivity {
                                 Toast.makeText(SignUpActivity.this, "Sign up Unsuccessful, Please Try Again.",Toast.LENGTH_SHORT).show();
                             }
                             else{
+                                ManageFirestore.newUser(email);
                                 startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
-                                Toast.makeText(SignUpActivity.this, "Sign up successful! Please log in.",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

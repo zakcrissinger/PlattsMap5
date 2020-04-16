@@ -1,14 +1,24 @@
 package com.example.plattsmapnavigation;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 
@@ -18,32 +28,57 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner; // Import the Scanner class to read text files
 
-public class ScheduleActivity extends AppCompatActivity {
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
+public class ScheduleActivity extends AppCompatActivity{
+    public static FirebaseFirestore db = FirebaseFirestore.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         TableLayout table = findViewById(R.id.table1);
-        FileInputStream fis = null;
-        try {
-            fis = openFileInput(InputScheduleActivity.FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String text;
-            while((text = br.readLine())!=null){
-                String[] texts = new String[4];
-                texts = text.split(" ");
-                addRow(table, texts);
-                System.out.println(text);
+        Query classes = db.collection("users").document(SignInStatus.UserName).collection("classes");
+        List<String> list = new ArrayList<>();
+        classes.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //list.add();
+                        list.add(document.getString("class"));
+                        list.add(document.getString("location"));
+                        list.add(document.getString("start"));
+                        list.add(document.getString("end"));
+                    }
+                    Log.d(TAG, list.toString());
+                    if(list == null){
+                        System.out.println("CLASS LIST IS 0 or NULL!!!!!!!!!!!!!!!!!!!!!!!");
+                    }
+                    else{
+                        SignInStatus.HasSched = true;
+                        int j = 0;
+                        int i = 0;
+                        String[] str = new String[4];
+                        while(i < list.size()){
+                            str[i-j] = list.get(i);
+                            if (((i+1) % 4) == 0){
+                                addRow(table, str);
+                                str = new String[4];
+                                j = i+1;
+                            }
+                            i+=1;
+                        }
+                    }
+                }
+                 else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
         }
     private void addRow(TableLayout table, String[] texts){
         DisplayMetrics displayMetrics = new DisplayMetrics();

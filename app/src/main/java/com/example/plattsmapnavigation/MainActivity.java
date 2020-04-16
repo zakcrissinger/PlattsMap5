@@ -52,13 +52,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
     public void AdjustSignInState(Menu menu){
+        //if(!SignInStatus.HasSched){
+       //     menu.findItem(R.id.ViewSched).setVisible(false);
+       // }
+        //else{
+        //    menu.findItem(R.id.ViewSched).setVisible(true);
+        //}
         if (SignInStatus.SignedIn){
             menu.findItem(R.id.signin).setVisible(false);
             menu.findItem(R.id.signout).setVisible(true);
+            menu.findItem(R.id.EntSched).setVisible(true);
         }
         else{
             menu.findItem(R.id.signout).setVisible(false);
             menu.findItem(R.id.signin).setVisible(true);
+            menu.findItem(R.id.EntSched).setVisible(false);
         }
     }
 

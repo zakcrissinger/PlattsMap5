@@ -159,6 +159,7 @@ public class InputScheduleActivity extends AppCompatActivity {
     }
 
     public void EnterSchedule(View view) throws IOException {
+        SignInStatus.HasSched = true;
         Intent k = new Intent(InputScheduleActivity.this, ScheduleActivity.class);
         startActivity(k);
         TableLayout table = findViewById(R.id.table);
@@ -172,21 +173,12 @@ public class InputScheduleActivity extends AppCompatActivity {
             EditText _start = findViewById(i+2);
             EditText _end = findViewById(i+3);
             String text = _class.getText() + " " + _loc.getText() + " " + _start.getText() + " " + _end.getText() + "\n";
+            ManageFirestore.newClass(SignInStatus.UserName, text);
             myObj.write(text.getBytes());
-            AddSchedToFirestore(_class.getText().toString(), _loc.getText().toString(), _start.getText().toString(), _end.getText().toString());
             i += 5;
         }
         myObj.close();
 
 
-    }
-    public void AddSchedToFirestore(String classN, String loc, String start, String end ){
-        mDocRef = FirebaseFirestore.getInstance().document("users/"+SignInStatus.UserName+"/schedules/Fall2020/classes/");
-        Map<String, Object> dataToSave = new HashMap<String, Object>();
-        dataToSave.put("className", classN);
-        dataToSave.put("locationName", loc);
-        dataToSave.put("startTime", start);
-        dataToSave.put("endTime", end);
-        mDocRef.set(dataToSave);
     }
 }
