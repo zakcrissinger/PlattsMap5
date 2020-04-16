@@ -3,6 +3,7 @@ package com.example.plattsmapnavigation;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -10,14 +11,23 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.directions.route.AbstractRouting;
+import com.directions.route.Route;
+import com.directions.route.RouteException;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -31,21 +41,32 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener,
+        RoutingListener,
+        GoogleMap.OnPolylineClickListener {
 
-    private static final String TAG = "MapsActivity";
-    private GoogleMap mMap;
     private static final int MY_PERMISSION_FINE_LOCATION = 101;
-    Double myLongitude = null;
+    private static final String google_maps_api_key = "AIzaSyAa0tDqcRDBZC40QHjQcIbXglBc9E_JL_8";
+    //private static final String TAG = "MapsActivity";
+    private GoogleMap mMap;
     Button markLocation;
+    Double myLongitude = null;
     Double myLatitude = null;
+    LatLng myLocation = null;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
+    private List<Polyline> polylines;
+    private static final int[] COLORS = new int[] {R.color.design_default_color_primary_dark};
+
 
     public MapsActivity() {
     }
@@ -57,7 +78,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
+        polylines = new ArrayList<>();
+        //get the spinner from the xml.
+        Spinner dropdown = findViewById(R.id.spinner);
+//create a list of items for the spinner.
+        String[] items = new String[]{"GO TO...","Home", "Edit Schedule", "View Schedule"};
+//create an adapter to describe how the items are displayed, adapters are used in several places in android.
+//There are multiple variations of this, but this is the basic variant.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+//set the spinners adapter to the previously created one.
+        dropdown.setAdapter(adapter);
+
+
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                String str = (String) arg0.getSelectedItem();
+
+                switch(str){
+                    case "Home":
+                        Intent intent = new Intent(MapsActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        break;
+
+                    case "Edit Schedule":
+                        Intent intent1 = new Intent(MapsActivity.this,InputScheduleActivity.class);
+                        startActivity(intent1);
+                        break;
+
+                    case "View Schedule":
+                        Intent intent2 = new Intent(MapsActivity.this,InputScheduleActivity.class);
+                        startActivity(intent2);
+                        break;
+
+
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+        });
 
         locationRequest = new LocationRequest();
 
@@ -81,56 +150,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         myLongitude = location.getLongitude();
                     }
                 }
+                myLocation = new LatLng(myLatitude, myLongitude);
             }
         };
 
         markLocation = findViewById(R.id.markLocation);
-        markLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LatLng myLocation = new LatLng(myLatitude, myLongitude);
-                mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
-            }
+        markLocation.setOnClickListener(v -> {
+            LatLng myLocation = new LatLng(myLatitude, myLongitude);
+            mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
         });
     }
-
-
-    /*
-    private void calculateDirections(Marker marker){
-        Log.d(TAG, "calculateDirections: calculating directions.");
-
-        com.google.maps.model.LatLng destination = new com.google.maps.model.LatLng(
-                marker.getPosition().latitude,
-                marker.getPosition().longitude
-        );
-        DirectionsApiRequest directions = new DirectionsApiRequest(mGeoApiContext);
-
-        directions.alternatives(true);
-        directions.origin(
-                new com.google.maps.model.LatLng(
-                        myLatitude,
-                        myLongitude
-                )
-        );
-        Log.d(TAG, "calculateDirections: destination: " + destination.toString());
-        directions.destination(destination).setCallback(new PendingResult.Callback<DirectionsResult>() {
-            @Override
-            public void onResult(DirectionsResult result) {
-                Log.d(TAG, "calculateDirections: routes: " + result.routes[0].toString());
-                Log.d(TAG, "calculateDirections: duration: " + result.routes[0].legs[0].duration);
-                Log.d(TAG, "calculateDirections: distance: " + result.routes[0].legs[0].distance);
-                Log.d(TAG, "calculateDirections: geocodedWayPoints: " + result.geocodedWaypoints[0].toString());
-
-                //addPolylinesToMap(result);
-            }
-
-            @Override
-            public void onFailure(Throwable e) {
-                Log.e(TAG, "calculateDirections: Failed to get directions: " + e.getMessage() );
-
-            }
-        });
-    }*/
 
     /**
      * Manipulates the map once available.
@@ -138,7 +167,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This is where we can add markers or lines, add listeners or move the camera.
      */
     public void onMapSearch(View view) {
-        EditText locationSearch = (EditText) findViewById(R.id.editText);
+        EditText locationSearch = findViewById(R.id.editText);
         String location = locationSearch.getText().toString();
         String snippet = "Tap here for directions to ";
         List<Address> addressList = null;
@@ -151,6 +180,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert addressList != null;
             Address address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             mMap.addMarker(new MarkerOptions().position(latLng).title(location).snippet(snippet + location));
@@ -205,8 +235,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnInfoWindowClickListener(this);
-        LatLng one = new LatLng(44.6950, -73.4669);
-        LatLng two = new LatLng(44.6920, -73.463);
+        mMap.setOnPolylineClickListener(this);
+        LatLng one = new LatLng(44.6960, -73.4669);
+        LatLng two = new LatLng(44.6920, -73.46);
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
@@ -245,12 +276,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .setPositiveButton("Driving", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            calculateDirectionsDriving(marker);
                             dialog.dismiss();
                         }
                     })
                    .setNeutralButton("Walking", new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
+                           calculateDirectionsWalking(marker);
                            dialog.dismiss();
                        }
                    })
@@ -263,5 +296,82 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             AlertDialog alert = builder.create();
             alert.show();
         }
+    }
+
+    private void calculateDirectionsDriving(Marker marker) {
+        LatLng mDestination = marker.getPosition();
+        Routing routing = new Routing.Builder()
+                .key(google_maps_api_key)
+                .travelMode(AbstractRouting.TravelMode.DRIVING)
+                .withListener(this)
+                .alternativeRoutes(true)
+                .waypoints(myLocation, mDestination)
+                .build();
+        routing.execute();
+    }
+
+    private void calculateDirectionsWalking(Marker marker) {
+        LatLng mDestination = marker.getPosition();
+        Routing routing = new Routing.Builder()
+                .key(google_maps_api_key)
+                .travelMode(AbstractRouting.TravelMode.WALKING)
+                .withListener(this)
+                .alternativeRoutes(true)
+                .waypoints(myLocation, mDestination)
+                .build();
+        routing.execute();
+    }
+
+    @Override
+    public void onRoutingFailure(RouteException e) {
+        if (e != null) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Something went wrong, try again", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) throws NullPointerException{
+        if (polylines.size() > 0) {
+            for (Polyline poly : polylines) {
+                poly.remove();
+            }
+        }
+
+        polylines = new ArrayList<>();
+        //add route(s) to the map.
+        for (int i = 0; i < route.size(); i++) {
+
+            //In case of more than 5 alternative routes
+            int colorIndex = i % COLORS.length;
+
+            PolylineOptions polyOptions = new PolylineOptions();
+            polyOptions.color(getResources().getColor(COLORS[colorIndex]));
+            polyOptions.width(10 + i * 3);
+            polyOptions.addAll(route.get(i).getPoints());
+            Polyline polyline = mMap.addPolyline(polyOptions);
+            polylines.add(polyline);
+
+            Toast.makeText(getApplicationContext(), "Route " + (i + 1) + ": distance - " + route.get(i).getDistanceValue() + ": duration - " + route.get(i).getDurationValue(), Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    @Override
+    public void onRoutingCancelled() {
+
+    }
+
+    @Override
+    public void onPolylineClick(Polyline polyline) {
+        Toast.makeText(this, "Line Selected", Toast.LENGTH_SHORT).show();
+        polyline.setColor(ContextCompat.getColor(this, R.color.red));
+        polyline.setZIndex(1);
     }
 }

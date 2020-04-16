@@ -3,6 +3,7 @@ package com.example.plattsmapnavigation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ImageView firstImage= (ImageView) findViewById(R.id.firstImage);
+        int imageResource = getResources().getIdentifier("@drawable/main2",null,this.getPackageName());
+        firstImage.setImageResource(imageResource);
         drawerLayout=findViewById(R.id.drawer);
         toolbar=findViewById(R.id.toolbar);
         navigationView =findViewById(R.id.navigationView);
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawerOpen,R.string.drawerClose);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
     }
     public void AdjustSignInState(Menu menu){
         //if(!SignInStatus.HasSched){
