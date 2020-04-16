@@ -39,12 +39,14 @@ public class LogInActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if(mFirebaseUser != null){
-                    Toast.makeText(LogInActivity.this, "You are logged in!", Toast.LENGTH_LONG).show();
+
+                    //Toast.makeText(LogInActivity.this, "You are logged in!", Toast.LENGTH_LONG).show();
                     SignInStatus.SignedIn = true;
                     SignInStatus.UserName = mFirebaseAuth.getCurrentUser().getEmail();
                     System.out.println(SignInStatus.UserName + "!!!!!!!!!!!!!!!!!!!!!!!!");
-                    Intent i = new Intent(LogInActivity.this, MainActivity.class);
-                    startActivity(i);
+
+                    //Intent i = new Intent(LogInActivity.this, MainActivity.class);
+                    //startActivity(i);*/
                 }
                 else{
                     Toast.makeText(LogInActivity.this, "Please Login", Toast.LENGTH_LONG).show();
@@ -80,7 +82,6 @@ public class LogInActivity extends AppCompatActivity {
                                 Intent inToHome = new Intent(LogInActivity.this, MainActivity.class);
                                 SignInStatus.SignedIn = true;
                                 SignInStatus.UserName = mFirebaseAuth.getCurrentUser().getEmail();
-                                System.out.println(mFirebaseAuth.getCurrentUser().getEmail() + " !!!!!!!!!!!!!!!!!!!!!!!!");
                                 startActivity(inToHome);
                             }
                         }
