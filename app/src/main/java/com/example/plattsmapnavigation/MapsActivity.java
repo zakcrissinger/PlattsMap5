@@ -2,7 +2,7 @@ package com.example.plattsmapnavigation;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+//import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -64,8 +64,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    private List<Polyline> polylines;
-    private static final int[] COLORS = new int[] {R.color.design_default_color_primary_dark};
+    private List<Polyline> polylinesList;
+
 
 
     public MapsActivity() {
@@ -80,7 +80,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        polylines = new ArrayList<>();
+        polylinesList = new ArrayList<>();
+        polylinesList = new ArrayList<>();
         //get the spinner from the xml.
         Spinner dropdown = findViewById(R.id.spinner);
 //create a list of items for the spinner.
@@ -106,13 +107,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         break;
 
                     case "Edit Schedule":
-                        Intent intent1 = new Intent(MapsActivity.this,InputScheduleActivity.class);
-                        startActivity(intent1);
-                        break;
 
                     case "View Schedule":
-                        Intent intent2 = new Intent(MapsActivity.this,InputScheduleActivity.class);
-                        startActivity(intent2);
+                        Intent intent1 = new Intent(MapsActivity.this,InputScheduleActivity.class);
+                        startActivity(intent1);
                         break;
 
 
@@ -127,6 +125,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+
 
         locationRequest = new LocationRequest();
 
@@ -273,26 +272,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Show Directions for: ")
                     .setCancelable(true)
-                    .setPositiveButton("Driving", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            calculateDirectionsDriving(marker);
-                            dialog.dismiss();
-                        }
+                    .setPositiveButton("Driving", (dialog, which) -> {
+                        calculateDirectionsDriving(marker);
+                        dialog.dismiss();
                     })
-                   .setNeutralButton("Walking", new DialogInterface.OnClickListener() {
-                       @Override
-                       public void onClick(DialogInterface dialog, int which) {
-                           calculateDirectionsWalking(marker);
-                           dialog.dismiss();
-                       }
+                   .setNeutralButton("Walking", (dialog, which) -> {
+                       calculateDirectionsWalking(marker);
+                       dialog.dismiss();
                    })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
+                    .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
             alert.show();
         }
@@ -338,27 +326,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) throws NullPointerException{
-        if (polylines.size() > 0) {
-            for (Polyline poly : polylines) {
+        if (polylinesList.size() > 0) {
+            for (Polyline poly : polylinesList) {
                 poly.remove();
             }
         }
 
-        polylines = new ArrayList<>();
+        polylinesList = new ArrayList<>();
+
         //add route(s) to the map.
         for (int i = 0; i < route.size(); i++) {
 
-            //In case of more than 5 alternative routes
-            int colorIndex = i % COLORS.length;
-
             PolylineOptions polyOptions = new PolylineOptions();
-            polyOptions.color(getResources().getColor(COLORS[colorIndex]));
-            polyOptions.width(10 + i * 3);
+            polyOptions.color(getResources().getColor(R.color.grey1));
+            polyOptions.width(10);
             polyOptions.addAll(route.get(i).getPoints());
             Polyline polyline = mMap.addPolyline(polyOptions);
-            polylines.add(polyline);
+            polyline.setClickable(true);
+            polylinesList.add(polyline);
 
-            Toast.makeText(getApplicationContext(), "Route " + (i + 1) + ": distance - " + route.get(i).getDistanceValue() + ": duration - " + route.get(i).getDurationValue(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Route " + (i + 1) + ": duration -> " + (route.get(i).getDurationValue() % 60) + " mins", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -370,8 +357,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onPolylineClick(Polyline polyline) {
-        Toast.makeText(this, "Line Selected", Toast.LENGTH_SHORT).show();
-        polyline.setColor(ContextCompat.getColor(this, R.color.red));
-        polyline.setZIndex(1);
+
+        for (Polyline polylineSelect : polylinesList) {
+            if (polyline.getId().equals( polylineSelect.getId())) {
+                polylineSelect.setColor(ContextCompat.getColor(this, R.color.blue1));
+                polylineSelect.setZIndex(1);
+            } else {
+                polylineSelect.setColor(ContextCompat.getColor(this, R.color.grey1));
+                polylineSelect.setZIndex(0);            }
+        }
     }
 }
