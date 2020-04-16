@@ -80,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        polylinesList = new ArrayList<>();
+        //polylinesList = new ArrayList<>();
         polylinesList = new ArrayList<>();
         //get the spinner from the xml.
         Spinner dropdown = findViewById(R.id.spinner);
