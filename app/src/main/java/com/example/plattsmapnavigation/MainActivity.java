@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageView firstImage= (ImageView) findViewById(R.id.firstImage);
-        int imageResource = getResources().getIdentifier("@drawable/main2",null,this.getPackageName());
+        int imageResource = getResources().getIdentifier("@drawable/main2.jpg",null,this.getPackageName());
         firstImage.setImageResource(imageResource);
         drawerLayout=findViewById(R.id.drawer);
         toolbar=findViewById(R.id.toolbar);
