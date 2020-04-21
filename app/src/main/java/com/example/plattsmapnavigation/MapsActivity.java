@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -57,7 +58,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String google_maps_api_key = "AIzaSyAa0tDqcRDBZC40QHjQcIbXglBc9E_JL_8";
     //private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
-    Button markLocation;
     Double myLongitude = null;
     Double myLatitude = null;
     LatLng myLocation = null;
@@ -80,16 +80,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        //polylinesList = new ArrayList<>();
         polylinesList = new ArrayList<>();
+
         //get the spinner from the xml.
         Spinner dropdown = findViewById(R.id.spinner);
-//create a list of items for the spinner.
+        //create a list of items for the spinner.
         String[] items = new String[]{"GO TO...","Home", "Edit Schedule", "View Schedule"};
-//create an adapter to describe how the items are displayed, adapters are used in several places in android.
-//There are multiple variations of this, but this is the basic variant.
+        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
+        //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-//set the spinners adapter to the previously created one.
+        //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
 
 
@@ -153,10 +153,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         };
 
-        markLocation = findViewById(R.id.markLocation);
-        markLocation.setOnClickListener(v -> {
-            LatLng myLocation = new LatLng(myLatitude, myLongitude);
-            mMap.addMarker(new MarkerOptions().position(myLocation).title("My Location"));
+        ImageButton resetMap = findViewById(R.id.reset_map);
+        resetMap.setOnClickListener(v -> {
+            Toast.makeText(this, "Map has been reset", Toast.LENGTH_SHORT).show();
+            resetMap();
         });
     }
 
@@ -326,6 +326,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) throws NullPointerException{
+        resetMap();
         if (polylinesList.size() > 0) {
             for (Polyline poly : polylinesList) {
                 poly.remove();
@@ -365,6 +366,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 polylineSelect.setColor(ContextCompat.getColor(this, R.color.grey1));
                 polylineSelect.setZIndex(0);            }
+        }
+    }
+
+    private void resetMap() {
+        if (mMap != null) {
+            mMap.clear();
+        }
+
+        if (polylinesList.size() > 0) {
+            polylinesList.clear();
+            polylinesList = new ArrayList<>();
         }
     }
 }

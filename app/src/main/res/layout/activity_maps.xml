@@ -8,7 +8,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-
         android:orientation="horizontal">
 
 
@@ -32,12 +31,13 @@
             android:layout_width="107dp"
             android:layout_height="match_parent" />
 
-        <Button
-            android:id="@+id/markLocation"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|top"
-            android:text="Mark" />
+        <ImageButton
+            android:id="@+id/reset_map"
+            android:layout_width="35dp"
+            android:layout_height="39dp"
+            android:background="@color/grey1"
+            android:src="@drawable/ic_refresh_black_24dp" />
+
 
     </LinearLayout>
 
