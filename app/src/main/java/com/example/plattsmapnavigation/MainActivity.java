@@ -52,12 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
     public void AdjustSignInState(Menu menu){
-        //if(!SignInStatus.HasSched){
-       //     menu.findItem(R.id.ViewSched).setVisible(false);
-       // }
-        //else{
-        //    menu.findItem(R.id.ViewSched).setVisible(true);
-        //}
         if (SignInStatus.SignedIn){
             menu.findItem(R.id.signin).setVisible(false);
             menu.findItem(R.id.signout).setVisible(true);
@@ -73,10 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()){
-            /*case R.id.Profile:
-                Toast.makeText(MainActivity.this, "Profile button selected", Toast.LENGTH_SHORT).show();
-                break;*/
-
             case R.id.CampusMap:
                 Intent i =new Intent(MainActivity.this,MapsActivity.class);
                 startActivity(i);
@@ -86,8 +76,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(k);
                 break;
             case R.id.ViewSched:
-                Intent l = new Intent(MainActivity.this,ScheduleActivity.class);
-                startActivity(l);
+                if (SignInStatus.SignedIn == false){
+                    Toast.makeText(MainActivity.this, "You must be signed in to view schedule.",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent l = new Intent(MainActivity.this,ScheduleActivity.class);
+                    startActivity(l);
+                }
                 break;
 
             case R.id.signin:

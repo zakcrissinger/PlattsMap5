@@ -37,7 +37,6 @@ import java.util.Map;
 
 public class InputScheduleActivity extends AppCompatActivity {
     Button btnEnterSched, addClass;
-    boolean flag = true;
     public int count = 0;
     private DocumentReference mDocRef;
     public static final String FILE_NAME = "classes_1.txt";
@@ -53,7 +52,6 @@ public class InputScheduleActivity extends AppCompatActivity {
     public void addRow(TableLayout table){
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        // int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
         TableRow r1 = new TableRow(this);
         r1.setId(IDs[count]);
