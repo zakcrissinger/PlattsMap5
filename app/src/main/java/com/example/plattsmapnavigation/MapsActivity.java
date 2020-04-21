@@ -2,7 +2,6 @@ package com.example.plattsmapnavigation;
 
 import android.Manifest;
 import android.app.AlertDialog;
-//import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -13,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -48,6 +46,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+//import android.content.DialogInterface;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener,
@@ -171,20 +171,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String snippet = "Tap here for directions to ";
         List<Address> addressList = null;
 
-        if (location != null || !location.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
-            try {
-                addressList = geocoder.getFromLocationName(location, 1);
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            addressList = geocoder.getFromLocationName(location, 1);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            assert addressList != null;
-            Address address = addressList.get(0);
-            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title(location).snippet(snippet + location));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        assert addressList != null;
+        Address address = addressList.get(0);
+        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(latLng).title(location).snippet(snippet + location));
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
     }
 
     @Override
