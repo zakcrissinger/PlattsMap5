@@ -1,10 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -13,48 +13,52 @@
 
         <EditText
             android:id="@+id/editText"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:hint="Search Location Here" />
+            android:hint="@string/search_location_here" />
 
         <Button
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_alignTop="@id/editText"
+            android:layout_alignBottom="@id/editText"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@+id/editText"
             android:onClick="onMapSearch"
             android:text="Search" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="107dp"
-            android:layout_height="match_parent" />
-
         <ImageButton
             android:id="@+id/reset_map"
-            android:layout_width="35dp"
-            android:layout_height="39dp"
-            android:background="@color/grey1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/editText"
+            android:layout_alignBottom="@id/editText"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@+id/search_button"
             android:src="@drawable/ic_refresh_black_24dp" />
 
-
-    </LinearLayout>
-
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.viralandroid.googlemapsandroidapi.MapsActivity"
-        />
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/editText"
+            android:layout_alignBottom="@id/editText"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="0dp"
+            android:layout_toEndOf="@+id/reset_map" />
 
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/editText"
+            tools:context="com.viralandroid.googlemapsandroidapi.MapsActivity" />
 
+    </RelativeLayout>
 
-
-
-
-</LinearLayout>
+</RelativeLayout>

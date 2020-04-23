@@ -2,7 +2,6 @@ package com.example.plattsmapnavigation;
 
 import android.Manifest;
 import android.app.AlertDialog;
-//import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -13,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -49,6 +47,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+//import android.content.DialogInterface;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener,
         RoutingListener,
@@ -56,15 +56,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final int MY_PERMISSION_FINE_LOCATION = 101;
     private static final String google_maps_api_key = "AIzaSyAa0tDqcRDBZC40QHjQcIbXglBc9E_JL_8";
+    private static final String locationSnippet = "Tap Here For Directions";
     //private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
     Double myLongitude = null;
     Double myLatitude = null;
     LatLng myLocation = null;
+    LatLng endRoute = null;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
     private List<Polyline> polylinesList;
+    private ArrayList<Integer> routeDurations;
 
 
 
@@ -168,23 +171,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapSearch(View view) {
         EditText locationSearch = findViewById(R.id.editText);
         String location = locationSearch.getText().toString();
-        String snippet = "Tap here for directions to ";
         List<Address> addressList = null;
 
-        if (location != null || !location.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
-            try {
-                addressList = geocoder.getFromLocationName(location, 1);
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            addressList = geocoder.getFromLocationName(location, 1);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            assert addressList != null;
-            Address address = addressList.get(0);
-            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title(location).snippet(snippet + location));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        assert addressList != null;
+        Address address = addressList.get(0);
+        endRoute = new LatLng(address.getLatitude(), address.getLongitude());
+        mMap.addMarker(new MarkerOptions().position(endRoute).title(location).snippet(locationSnippet));
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(endRoute));
     }
 
     @Override
@@ -264,11 +264,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(final Marker marker) {
-        //Toast.makeText(this, "Location Tapped", Toast.LENGTH_SHORT).show();
 
-        if ( marker.getTitle().equals("My Location") ) {
-            marker.hideInfoWindow();
-        } else {
+        if ( marker.getSnippet().equals(locationSnippet) ) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Show Directions for: ")
                     .setCancelable(true)
@@ -276,13 +273,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         calculateDirectionsDriving(marker);
                         dialog.dismiss();
                     })
-                   .setNeutralButton("Walking", (dialog, which) -> {
-                       calculateDirectionsWalking(marker);
-                       dialog.dismiss();
-                   })
+                    .setNeutralButton("Walking", (dialog, which) -> {
+                        calculateDirectionsWalking(marker);
+                        dialog.dismiss();
+                    })
                     .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
             alert.show();
+
+
+        } else {
+            marker.hideInfoWindow();
         }
     }
 
@@ -334,6 +335,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         polylinesList = new ArrayList<>();
+        routeDurations = new ArrayList<>();
 
         //add route(s) to the map.
         for (int i = 0; i < route.size(); i++) {
@@ -346,8 +348,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             polyline.setClickable(true);
             polylinesList.add(polyline);
 
-            Toast.makeText(getApplicationContext(), "Route " + (i + 1) + ": duration -> " + (route.get(i).getDurationValue() % 60) + " mins", Toast.LENGTH_SHORT).show();
-
+            //adds trip durations to a global list
+            routeDurations.add(route.get(i).getDurationValue() / 60);
         }
     }
 
@@ -359,10 +361,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onPolylineClick(Polyline polyline) {
 
+        int index = 0;  //used to display which route is selected
         for (Polyline polylineSelect : polylinesList) {
+            index ++;
             if (polyline.getId().equals( polylineSelect.getId())) {
                 polylineSelect.setColor(ContextCompat.getColor(this, R.color.blue1));
                 polylineSelect.setZIndex(1);
+
+                int duration = routeDurations.get(index - 1);
+
+                Marker endTrip = mMap.addMarker(new MarkerOptions()
+                        .position(endRoute)
+                        .title("Route #" + index)
+                        .snippet("Duration:  " + duration + " mins")
+                );
+                endTrip.showInfoWindow();
             } else {
                 polylineSelect.setColor(ContextCompat.getColor(this, R.color.grey1));
                 polylineSelect.setZIndex(0);            }
