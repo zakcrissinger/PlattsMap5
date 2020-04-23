@@ -40,6 +40,7 @@ public class ScheduleActivity extends AppCompatActivity{
                         list.add(document.getString("location"));
                         list.add(document.getString("start"));
                         list.add(document.getString("end"));
+                        list.add(document.getString("days"));
                     }
                     Log.d(TAG, list.toString());
                     if(list == null){
@@ -49,12 +50,12 @@ public class ScheduleActivity extends AppCompatActivity{
                         SignInStatus.HasSched = true;
                         int j = 0;
                         int i = 0;
-                        String[] str = new String[4];
+                        String[] str = new String[5];
                         while(i < list.size()){
                             str[i-j] = list.get(i);
-                            if (((i+1) % 4) == 0){
+                            if (((i+1) % 5) == 0){
                                 addRow(table, str);
-                                str = new String[4];
+                                str = new String[5];
                                 j = i+1;
                             }
                             i+=1;
@@ -80,7 +81,7 @@ public class ScheduleActivity extends AppCompatActivity{
         while(i < texts.length){
             final TextView textField = new TextView(this);
             textField.setInputType(96);
-            textField.setWidth(width/4);
+            textField.setWidth(width/5);
             textField.setText(texts[i]);
             textField.setFreezesText(true);
             r1.addView(textField);

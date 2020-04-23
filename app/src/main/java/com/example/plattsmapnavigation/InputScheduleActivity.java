@@ -63,26 +63,32 @@ public class InputScheduleActivity extends AppCompatActivity {
         EditText edit_class = new EditText(this);
         edit_class.setId(IDs[count]);
         edit_class.setInputType(96);
-        edit_class.setWidth(width/4);
+        edit_class.setWidth(width/5);
         count +=1;
         r1.addView(edit_class);
         EditText edit_loc = new EditText(this);
         edit_loc.setId(IDs[count]);
         edit_loc.setInputType(96);
-        edit_loc.setWidth(width/4);
+        edit_loc.setWidth(width/5);
         count +=1;
         r1.addView(edit_loc);
+        EditText edit_days = new EditText(this);
+        edit_days.setId(IDs[count]);
+        edit_days.setWidth(width/5);
+        edit_days.setInputType(32);
+        count +=1;
+        r1.addView(edit_days);
         //start text
         EditText edit_start = new EditText(this);
         edit_start.setId(IDs[count]);
         edit_start.setInputType(32);
-        edit_start.setWidth(width/4);
+        edit_start.setWidth(width/5);
         count +=1;
         r1.addView(edit_start);
         //end text
         EditText edit_end = new EditText(this);
         edit_end.setId(IDs[count]);
-        edit_end.setWidth(width/4);
+        edit_end.setWidth(width/5);
         edit_end.setInputType(32);
         count +=1;
         r1.addView(edit_end);
@@ -90,6 +96,8 @@ public class InputScheduleActivity extends AppCompatActivity {
         table.addView(r1);
     }
     public void addRow2(View view){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        int width = displayMetrics.widthPixels;
         TableLayout table = findViewById(R.id.table);
         TableRow r1 = new TableRow(this);
         r1.setId(IDs[count]);
@@ -100,24 +108,35 @@ public class InputScheduleActivity extends AppCompatActivity {
         //class text
         EditText edit_class = new EditText(this);
         edit_class.setId(IDs[count]);
+        edit_class.setWidth(width/5);
         edit_class.setInputType(96);
         count +=1;
         r1.addView(edit_class);
         //loc text
         EditText edit_loc = new EditText(this);
         edit_loc.setId(IDs[count]);
+        edit_loc.setWidth(width/5);
         edit_loc.setInputType(96);
         count +=1;
         r1.addView(edit_loc);
+        //days
+        EditText edit_days = new EditText(this);
+        edit_days.setId(IDs[count]);
+        edit_days.setWidth(width/5);
+        edit_days.setInputType(32);
+        count +=1;
+        r1.addView(edit_days);
         //start text
         EditText edit_start = new EditText(this);
         edit_start.setId(IDs[count]);
+        edit_start.setWidth(width/5);
         edit_start.setInputType(32);
         count +=1;
         r1.addView(edit_start);
         //end text
         EditText edit_end = new EditText(this);
         edit_end.setId(IDs[count]);
+        edit_end.setWidth(width/5);
         edit_end.setInputType(32);
         count +=1;
         r1.addView(edit_end);
@@ -143,7 +162,7 @@ public class InputScheduleActivity extends AppCompatActivity {
         addClass = findViewById(R.id.addClass);
         addClass.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (count < 29){
+                if (count < 30){
                     addRow2(v);
                 }
                 else{
@@ -161,21 +180,18 @@ public class InputScheduleActivity extends AppCompatActivity {
         Intent k = new Intent(InputScheduleActivity.this, ScheduleActivity.class);
         startActivity(k);
         TableLayout table = findViewById(R.id.table);
-        FileOutputStream myObj = null;
-        myObj = openFileOutput(FILE_NAME, MODE_PRIVATE);
 
         int i = 1;
         while(i < count){
             EditText _class = findViewById(i);
             EditText _loc = findViewById(i+1);
-            EditText _start = findViewById(i+2);
-            EditText _end = findViewById(i+3);
-            String text = _class.getText() + " " + _loc.getText() + " " + _start.getText() + " " + _end.getText() + "\n";
+            EditText _days = findViewById(i+2);
+            EditText _start = findViewById(i+3);
+            EditText _end = findViewById(i+4);
+            String text = _class.getText() + " " + _loc.getText() + " " + _start.getText() + " " + _end.getText() + " " + _days.getText() + "\n";
             ManageFirestore.newClass(SignInStatus.UserName, text);
-            myObj.write(text.getBytes());
-            i += 5;
+            i += 6;
         }
-        myObj.close();
 
 
     }
