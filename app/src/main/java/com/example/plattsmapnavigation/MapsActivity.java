@@ -55,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleMap.OnPolylineClickListener {
 
     private static final int MY_PERMISSION_FINE_LOCATION = 101;
-    private static final String google_maps_api_key = "AIzaSyAa0tDqcRDBZC40QHjQcIbXglBc9E_JL_8";
+    private static final String google_maps_api_key = "AIzaSyAifXCHf536CDtqHh6Qge2QYcTPvNp5BBU";
     private static final String locationSnippet = "Tap Here For Directions";
     //private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
