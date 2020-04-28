@@ -110,10 +110,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         break;
 
                     case "Edit Schedule":
-
+                        if (SignInStatus.SignedIn == false){
+                            Toast.makeText(MapsActivity.this, "You must be signed in to edit schedule.",Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Intent l = new Intent(MapsActivity.this,ScheduleActivity.class);
+                            startActivity(l);
+                        }
                     case "View Schedule":
-                        Intent intent1 = new Intent(MapsActivity.this,InputScheduleActivity.class);
-                        startActivity(intent1);
+                        if (SignInStatus.SignedIn == false){
+                            Toast.makeText(MapsActivity.this, "You must be signed in to view schedule.",Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Intent intent1 = new Intent(MapsActivity.this, InputScheduleActivity.class);
+                            startActivity(intent1);
+                        }
                         break;
 
 

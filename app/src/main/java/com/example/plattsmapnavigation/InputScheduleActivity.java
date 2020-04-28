@@ -11,6 +11,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -35,12 +37,15 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InputScheduleActivity extends AppCompatActivity {
+public class InputScheduleActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Button btnEnterSched, addClass;
     public int count = 0;
     private DocumentReference mDocRef;
     public static final String FILE_NAME = "classes_1.txt";
     private int[] IDs= new int[50];
+    private boolean flag = false;
+    private String[][] daysSelected = new String[5][7];
+    private int dNum = 0;
 
     private void setIDs(){
         int i = 0;
@@ -63,26 +68,33 @@ public class InputScheduleActivity extends AppCompatActivity {
         EditText edit_class = new EditText(this);
         edit_class.setId(IDs[count]);
         edit_class.setInputType(96);
-        edit_class.setWidth(width/4);
+        edit_class.setWidth(width/6);
         count +=1;
         r1.addView(edit_class);
         EditText edit_loc = new EditText(this);
         edit_loc.setId(IDs[count]);
         edit_loc.setInputType(96);
-        edit_loc.setWidth(width/4);
+        edit_loc.setWidth(width/6);
         count +=1;
         r1.addView(edit_loc);
+        Spinner edit_days = new Spinner(this);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.days, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        edit_days.setAdapter(adapter);
+        edit_days.setOnItemSelectedListener(this);
+        count +=1;
+        r1.addView(edit_days);
         //start text
         EditText edit_start = new EditText(this);
         edit_start.setId(IDs[count]);
         edit_start.setInputType(32);
-        edit_start.setWidth(width/4);
+        edit_start.setWidth(width/6);
         count +=1;
         r1.addView(edit_start);
         //end text
         EditText edit_end = new EditText(this);
         edit_end.setId(IDs[count]);
-        edit_end.setWidth(width/4);
+        edit_end.setWidth(width/6);
         edit_end.setInputType(32);
         count +=1;
         r1.addView(edit_end);
@@ -90,39 +102,61 @@ public class InputScheduleActivity extends AppCompatActivity {
         table.addView(r1);
     }
     public void addRow2(View view){
-        TableLayout table = findViewById(R.id.table);
-        TableRow r1 = new TableRow(this);
-        r1.setId(IDs[count]);
-        count += 1;
-        r1.setLayoutParams(new TableRow.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT));
-        //class text
-        EditText edit_class = new EditText(this);
-        edit_class.setId(IDs[count]);
-        edit_class.setInputType(96);
-        count +=1;
-        r1.addView(edit_class);
-        //loc text
-        EditText edit_loc = new EditText(this);
-        edit_loc.setId(IDs[count]);
-        edit_loc.setInputType(96);
-        count +=1;
-        r1.addView(edit_loc);
-        //start text
-        EditText edit_start = new EditText(this);
-        edit_start.setId(IDs[count]);
-        edit_start.setInputType(32);
-        count +=1;
-        r1.addView(edit_start);
-        //end text
-        EditText edit_end = new EditText(this);
-        edit_end.setId(IDs[count]);
-        edit_end.setInputType(32);
-        count +=1;
-        r1.addView(edit_end);
-        //add row
-        table.addView(r1);
+        if(daysSelected[dNum][0]==null){
+            Toast.makeText(InputScheduleActivity.this, "Add days to class before entering new class",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            dNum += 1;
+            flag = false;
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            int width = displayMetrics.widthPixels;
+            TableLayout table = findViewById(R.id.table);
+            TableRow r1 = new TableRow(this);
+            r1.setId(IDs[count]);
+            count += 1;
+            r1.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT));
+            //class text
+            EditText edit_class = new EditText(this);
+            edit_class.setId(IDs[count]);
+            edit_class.setWidth(width/6);
+            edit_class.setInputType(96);
+            count +=1;
+            r1.addView(edit_class);
+            //loc text
+            EditText edit_loc = new EditText(this);
+            edit_loc.setId(IDs[count]);
+            edit_loc.setWidth(width/6);
+            edit_loc.setInputType(96);
+            count +=1;
+            r1.addView(edit_loc);
+            //days
+
+            Spinner edit_days = new Spinner(this);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.days, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            edit_days.setAdapter(adapter);
+            edit_days.setOnItemSelectedListener(this);
+            count +=1;
+            r1.addView(edit_days);
+            //start text
+            EditText edit_start = new EditText(this);
+            edit_start.setId(IDs[count]);
+            edit_start.setWidth(width/6);
+            edit_start.setInputType(32);
+            count +=1;
+            r1.addView(edit_start);
+            //end text
+            EditText edit_end = new EditText(this);
+            edit_end.setId(IDs[count]);
+            edit_end.setWidth(width/6);
+            edit_end.setInputType(32);
+            count +=1;
+            r1.addView(edit_end);
+            //add row
+            table.addView(r1);
+        }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,7 +177,7 @@ public class InputScheduleActivity extends AppCompatActivity {
         addClass = findViewById(R.id.addClass);
         addClass.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (count < 29){
+                if (count < 30){
                     addRow2(v);
                 }
                 else{
@@ -161,22 +195,58 @@ public class InputScheduleActivity extends AppCompatActivity {
         Intent k = new Intent(InputScheduleActivity.this, ScheduleActivity.class);
         startActivity(k);
         TableLayout table = findViewById(R.id.table);
-        FileOutputStream myObj = null;
-        myObj = openFileOutput(FILE_NAME, MODE_PRIVATE);
 
         int i = 1;
+        int j = 0;
         while(i < count){
+            String theDays = "";
             EditText _class = findViewById(i);
             EditText _loc = findViewById(i+1);
-            EditText _start = findViewById(i+2);
-            EditText _end = findViewById(i+3);
-            String text = _class.getText() + " " + _loc.getText() + " " + _start.getText() + " " + _end.getText() + "\n";
+            int x = 0;
+            while(daysSelected[j][x] != null){
+                if(daysSelected[j][x].charAt(1) == 'h'){
+                    theDays = theDays + daysSelected[j][x].charAt(0) + daysSelected[j][x].charAt(1);
+                }
+                else{
+                    theDays = theDays + daysSelected[j][x].charAt(0);
+                }
+                x++;
+            }
+            EditText _start = findViewById(i+3);
+            EditText _end = findViewById(i+4);
+            String text = _class.getText() + " " + _loc.getText() + " " + theDays + " " + _start.getText() + " " + _end.getText() + "\n";
             ManageFirestore.newClass(SignInStatus.UserName, text);
-            myObj.write(text.getBytes());
-            i += 5;
+            i += 6;
+            j++;
         }
-        myObj.close();
 
 
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        int i = 0;
+        //new int to keep track of which array of days being accessed in dayArray array
+        if(flag){
+            while(i  < 7){
+                if(daysSelected[dNum][i] == null){
+                    daysSelected[dNum][i] = parent.getItemAtPosition(position).toString();
+                    break;
+                }
+                i++;
+            }
+            for(String x: daysSelected[dNum]){
+                System.out.println(x);
+            }
+        }
+        else{
+            flag = !flag;
+        }
+
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
     }
 }

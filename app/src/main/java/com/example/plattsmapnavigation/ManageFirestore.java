@@ -22,6 +22,7 @@ public class ManageFirestore {
         _class.put("location", info[1]);
         _class.put("start", info[2]);
         _class.put("end", info[3]);
+        _class.put("days", info[4]);
         db.collection("users").document(userName).collection("classes")
                 .document().set(_class);
     }
