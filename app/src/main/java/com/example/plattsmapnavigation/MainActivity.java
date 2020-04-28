@@ -1,6 +1,8 @@
 package com.example.plattsmapnavigation;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -22,6 +24,8 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
@@ -36,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageView firstImage= (ImageView) findViewById(R.id.firstImage);
-        int imageResource = getResources().getIdentifier("@drawable/main2.jpg",null,this.getPackageName());
-        firstImage.setImageResource(imageResource);
+        //int imageResource = getResources().getIdentifier("@drawable/main2.jpg",null,this.getPackageName());
+        //firstImage.setImageResource(imageResource);
         drawerLayout=findViewById(R.id.drawer);
         toolbar=findViewById(R.id.toolbar);
         navigationView =findViewById(R.id.navigationView);
@@ -49,7 +53,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawerOpen,R.string.drawerClose);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        fixGoogleMapBug();
 
+    }
+
+    private void fixGoogleMapBug() {
+        SharedPreferences googleBug = getSharedPreferences("google_bug", Context.MODE_PRIVATE);
+        if (!googleBug.contains("fixed")) {
+            File corruptedZoomTables = new File(getFilesDir(), "ZoomTables.data");
+            corruptedZoomTables.delete();
+            googleBug.edit().putBoolean("fixed", true).apply();
+        }
     }
     public void AdjustSignInState(Menu menu){
         if (SignInStatus.SignedIn){

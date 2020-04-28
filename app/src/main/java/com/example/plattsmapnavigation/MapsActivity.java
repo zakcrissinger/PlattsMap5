@@ -358,7 +358,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Polyline polyline = mMap.addPolyline(polyOptions);
             polyline.setClickable(true);
             polylinesList.add(polyline);
-
+            //onPolylineClick(polyline);
             //adds trip durations to a global list
             routeDurations.add(route.get(i).getDurationValue() / 60);
         }
@@ -403,4 +403,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             polylinesList = new ArrayList<>();
         }
     }
+
 }
