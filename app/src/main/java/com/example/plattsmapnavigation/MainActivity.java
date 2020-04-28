@@ -53,18 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawerOpen,R.string.drawerClose);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        fixGoogleMapBug();
-
     }
 
-    private void fixGoogleMapBug() {
-        SharedPreferences googleBug = getSharedPreferences("google_bug", Context.MODE_PRIVATE);
-        if (!googleBug.contains("fixed")) {
-            File corruptedZoomTables = new File(getFilesDir(), "ZoomTables.data");
-            corruptedZoomTables.delete();
-            googleBug.edit().putBoolean("fixed", true).apply();
-        }
-    }
     public void AdjustSignInState(Menu menu){
         if (SignInStatus.SignedIn){
             menu.findItem(R.id.signin).setVisible(false);

@@ -2,13 +2,16 @@ package com.example.plattsmapnavigation;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -43,6 +46,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int MY_PERMISSION_FINE_LOCATION = 101;
     private static final String google_maps_api_key = "AIzaSyAifXCHf536CDtqHh6Qge2QYcTPvNp5BBU";
     private static final String locationSnippet = "Tap Here For Directions";
-    //private static final String TAG = "MapsActivity";
+    private static final String TAG = "MapsActivity";
     private GoogleMap mMap;
     Double myLongitude = null;
     Double myLatitude = null;
@@ -84,6 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         polylinesList = new ArrayList<>();
+        fixGoogleMapBug();
 
         //get the spinner from the xml.
         Spinner dropdown = findViewById(R.id.spinner);
@@ -172,6 +177,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(this, "Map has been reset", Toast.LENGTH_SHORT).show();
             resetMap();
         });
+    }
+
+    private void fixGoogleMapBug() {
+        SharedPreferences googleBug = getSharedPreferences("google_bug", Context.MODE_PRIVATE);
+        if (!googleBug.contains("fixed")) {
+            File corruptedZoomTables = new File(getFilesDir(), "ZoomTables.data");
+            corruptedZoomTables.delete();
+            googleBug.edit().putBoolean("fixed", true).apply();
+        }
     }
 
     /**
@@ -291,8 +305,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
             AlertDialog alert = builder.create();
             alert.show();
-
-
         } else {
             marker.hideInfoWindow();
         }
@@ -358,10 +370,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Polyline polyline = mMap.addPolyline(polyOptions);
             polyline.setClickable(true);
             polylinesList.add(polyline);
-            //onPolylineClick(polyline);
+            Log.d(TAG, "Duration: " + route.get(i).getDurationValue());
+
             //adds trip durations to a global list
             routeDurations.add(route.get(i).getDurationValue() / 60);
         }
+
+        int shortest_time = routeDurations.get(0);
+        int shortest_time_index = 0;
+        for (int i = 0; i < routeDurations.size(); i++) {
+            if (routeDurations.get(i) < shortest_time) {
+                shortest_time = i;
+                shortest_time_index = i;
+            }
+        }
+        onPolylineClick(polylinesList.get(shortest_time_index));
+
+
     }
 
     @Override
