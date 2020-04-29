@@ -14,17 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
+
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.File;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -34,14 +31,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle toggle;
     Menu menu;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+       System.out.println(getTimeOfDay());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ImageView firstImage= (ImageView) findViewById(R.id.firstImage);
-        //int imageResource = getResources().getIdentifier("@drawable/main2.jpg",null,this.getPackageName());
-        //firstImage.setImageResource(imageResource);
         drawerLayout=findViewById(R.id.drawer);
         toolbar=findViewById(R.id.toolbar);
         navigationView =findViewById(R.id.navigationView);
@@ -112,5 +106,55 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
         return false;
+    }
+
+    public String getTimeOfDay(){
+        String time = Calendar.getInstance().getTime().toString();
+        int i = 0;
+        char[] now = new char[8];
+        while(i < time.length()){
+            if(time.charAt(i+2)==(':')){
+                int j = 0;
+                while(j < 5){
+                    now[j] = time.charAt(i);
+                    i++;
+                    j++;
+                }
+                break;
+            }
+            i++;
+        }
+        int hour = Character.getNumericValue(now[0])*10;
+        hour = hour + Character.getNumericValue(now[1]);
+        if(hour < 12){
+            return "Good Morning, ";
+        }
+        else if(hour >= 12 & hour < 17){
+            return "Good Afternoon, ";
+        }
+        else{
+            return "Good Evening, ";
+        }
+    }
+    public String getDayOfWeek(){
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        switch(day){
+            case 1:
+                return("Sunday");
+            case 2:
+                return("Monday");
+            case 3:
+                return("Tuesday");
+            case 4:
+                return("Wednesday");
+            case 5:
+                return("Thursday");
+            case 6:
+                return("Firday");
+            case 7:
+                return("Saturday");
+        }
+    return null;
     }
 }
