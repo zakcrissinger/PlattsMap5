@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,10 +31,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     Menu menu;
+    TextView welcomeMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-       System.out.println(getTimeOfDay());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         drawerLayout=findViewById(R.id.drawer);
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView =findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
         menu = navigationView.getMenu();
+        welcomeMessage = findViewById(R.id.welcome);
         AdjustSignInState(menu);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         fixGoogleMapBug();
-
+        welcomeMessage.setText(updateWelcomeMessage());
     }
 
     private void fixGoogleMapBug() {
@@ -156,5 +158,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return("Saturday");
         }
     return null;
+    }
+    public String updateWelcomeMessage(){
+        if(SignInStatus.SignedIn){
+            String str = SignInStatus.UserName.split("@")[0];
+            String name = str.substring(0, 1).toUpperCase() + str.substring(1);
+            return(getTimeOfDay()+name+".");
+        }
+        else{
+            return("Welcome to PlattsMap!");
+        }
     }
 }

@@ -22,7 +22,7 @@
             android:background="@color/red" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/welcome"
             android:layout_width="379dp"
             android:layout_height="129dp"
             android:layout_alignParentStart="true"
