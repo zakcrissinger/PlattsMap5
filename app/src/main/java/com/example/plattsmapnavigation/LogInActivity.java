@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 //sign in activity
 public class LogInActivity extends AppCompatActivity {
     EditText emailID, password;
-    Button btnSignIn;
+    Button btnSignIn, btnHome;
     TextView tvSignUp;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -32,6 +32,7 @@ public class LogInActivity extends AppCompatActivity {
         emailID = findViewById(R.id.editText);  //get email from textbox in SignUpActivity.xml
         password = findViewById(R.id.editText2); //get password from textbox in SignUpActivity.xml
         btnSignIn = findViewById(R.id.button);
+        btnHome = findViewById(R.id.home2);
         tvSignUp = findViewById(R.id.textView);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
@@ -41,12 +42,10 @@ public class LogInActivity extends AppCompatActivity {
                 if(mFirebaseUser != null){
 
                     //Toast.makeText(LogInActivity.this, "You are logged in!", Toast.LENGTH_LONG).show();
-                    SignInStatus.SignedIn = true;
-                    SignInStatus.UserName = mFirebaseAuth.getCurrentUser().getEmail();
-                    System.out.println(SignInStatus.UserName + "!!!!!!!!!!!!!!!!!!!!!!!!");
-
+                    //SignInStatus.SignedIn = true;
+                    //SignInStatus.UserName = mFirebaseAuth.getCurrentUser().getEmail();
                     //Intent i = new Intent(LogInActivity.this, MainActivity.class);
-                    //startActivity(i);*/
+                    //startActivity(i);
                 }
                 else{
                     Toast.makeText(LogInActivity.this, "Please Login", Toast.LENGTH_LONG).show();
@@ -99,6 +98,13 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intSignUp = new Intent(LogInActivity.this, SignUpActivity.class);
                 startActivity(intSignUp);
+            }
+        });
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(LogInActivity.this, MainActivity.class);
+                startActivity(i);
             }
         });
     }

@@ -104,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FirebaseAuth.getInstance().signOut();
                 SignInStatus.SignedIn = false;
                 AdjustSignInState(menu);
+                Intent m =new Intent(MainActivity.this, LogInActivity.class);
+                startActivity(m);
                 break;
 
         }
