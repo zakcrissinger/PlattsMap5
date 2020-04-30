@@ -14,18 +14,46 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/firstImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:background="@color/red"/>
+            android:layout_alignParentTop="true"
+            android:background="@color/red" />
 
+        <TextView
+            android:id="@+id/welcome"
+            android:layout_width="379dp"
+            android:layout_height="129dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="432dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="340dp"
+            android:fontFamily="sans-serif-medium"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/nextclass"
+            android:layout_width="379dp"
+            android:layout_height="129dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="432dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="146dp"
+            android:fontFamily="sans-serif-medium"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
 
     </RelativeLayout>
