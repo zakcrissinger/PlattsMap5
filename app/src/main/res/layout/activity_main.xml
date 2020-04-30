@@ -30,12 +30,29 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="3dp"
             android:layout_marginTop="432dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="3dp"
             android:layout_marginBottom="340dp"
             android:fontFamily="sans-serif-medium"
             android:text=""
             android:textAlignment="center"
             android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nextclass"
+            android:layout_width="379dp"
+            android:layout_height="129dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="432dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="146dp"
+            android:fontFamily="sans-serif-medium"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="25dp"
             android:textStyle="bold" />
 
 
