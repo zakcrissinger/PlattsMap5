@@ -1,6 +1,8 @@
 package com.example.plattsmapnavigation;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -22,6 +24,8 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
@@ -36,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageView firstImage= (ImageView) findViewById(R.id.firstImage);
-        int imageResource = getResources().getIdentifier("@drawable/main2",null,this.getPackageName());
-        firstImage.setImageResource(imageResource);
+        //int imageResource = getResources().getIdentifier("@drawable/main2.jpg",null,this.getPackageName());
+        //firstImage.setImageResource(imageResource);
         drawerLayout=findViewById(R.id.drawer);
         toolbar=findViewById(R.id.toolbar);
         navigationView =findViewById(R.id.navigationView);
@@ -49,15 +53,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawerOpen,R.string.drawerClose);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
     }
+
     public void AdjustSignInState(Menu menu){
-        //if(!SignInStatus.HasSched){
-       //     menu.findItem(R.id.ViewSched).setVisible(false);
-       // }
-        //else{
-        //    menu.findItem(R.id.ViewSched).setVisible(true);
-        //}
         if (SignInStatus.SignedIn){
             menu.findItem(R.id.signin).setVisible(false);
             menu.findItem(R.id.signout).setVisible(true);
@@ -73,10 +71,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()){
-            /*case R.id.Profile:
-                Toast.makeText(MainActivity.this, "Profile button selected", Toast.LENGTH_SHORT).show();
-                break;*/
-
             case R.id.CampusMap:
                 Intent i =new Intent(MainActivity.this,MapsActivity.class);
                 startActivity(i);
@@ -86,8 +80,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(k);
                 break;
             case R.id.ViewSched:
-                Intent l = new Intent(MainActivity.this,ScheduleActivity.class);
-                startActivity(l);
+                if (SignInStatus.SignedIn == false){
+                    Toast.makeText(MainActivity.this, "You must be signed in to view schedule.",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent l = new Intent(MainActivity.this,ScheduleActivity.class);
+                    startActivity(l);
+                }
                 break;
 
             case R.id.signin:

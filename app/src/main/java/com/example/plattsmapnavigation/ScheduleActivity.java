@@ -6,31 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
-
-import java.io.BufferedReader;
-import java.io.File;  // Import the File class
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;  // Import this class to handle errors
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner; // Import the Scanner class to read text files
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
@@ -53,6 +40,7 @@ public class ScheduleActivity extends AppCompatActivity{
                         list.add(document.getString("location"));
                         list.add(document.getString("start"));
                         list.add(document.getString("end"));
+                        list.add(document.getString("days"));
                     }
                     Log.d(TAG, list.toString());
                     if(list == null){
@@ -62,12 +50,12 @@ public class ScheduleActivity extends AppCompatActivity{
                         SignInStatus.HasSched = true;
                         int j = 0;
                         int i = 0;
-                        String[] str = new String[4];
+                        String[] str = new String[5];
                         while(i < list.size()){
                             str[i-j] = list.get(i);
-                            if (((i+1) % 4) == 0){
+                            if (((i+1) % 5) == 0){
                                 addRow(table, str);
-                                str = new String[4];
+                                str = new String[5];
                                 j = i+1;
                             }
                             i+=1;
@@ -93,7 +81,7 @@ public class ScheduleActivity extends AppCompatActivity{
         while(i < texts.length){
             final TextView textField = new TextView(this);
             textField.setInputType(96);
-            textField.setWidth(width/4);
+            textField.setWidth(width/5);
             textField.setText(texts[i]);
             textField.setFreezesText(true);
             r1.addView(textField);
