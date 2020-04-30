@@ -193,7 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera.
      */
-    public void onMapSearch(View view) {
+    public void onMapSearch(View view){
         EditText locationSearch = findViewById(R.id.editText);
         String location = locationSearch.getText().toString();
         List<Address> addressList = null;
@@ -202,14 +202,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             addressList = geocoder.getFromLocationName(location, 1);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
+            Toast.makeText(this, "Please Input A Location", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-        assert addressList != null;
-        Address address = addressList.get(0);
-        endRoute = new LatLng(address.getLatitude(), address.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(endRoute).title(location).snippet(locationSnippet));
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(endRoute));
+        if( addressList != null) {
+            Address address = addressList.get(0);
+            endRoute = new LatLng(address.getLatitude(), address.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(endRoute).title(location).snippet(locationSnippet));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(endRoute));
+        }
     }
 
     @Override
