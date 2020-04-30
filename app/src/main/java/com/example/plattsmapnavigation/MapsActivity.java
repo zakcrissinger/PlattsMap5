@@ -51,6 +51,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/* TODO: -change "Map has been reset" to "Map reset"
+         -have info window pop up right as marker is placed
+*/
 //import android.content.DialogInterface;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
