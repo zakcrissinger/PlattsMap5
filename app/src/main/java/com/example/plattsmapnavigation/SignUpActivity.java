@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText emailID, password;
-    Button btnSignUp;
+    Button btnSignUp, btnHome;
     TextView tvSignIn;
     FirebaseAuth mFirebaseAuth;
     @Override
@@ -32,6 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
         password = findViewById(R.id.editText2); //get password from textbox in SignUpActivity.xml
         btnSignUp = findViewById(R.id.button);
         tvSignIn = findViewById(R.id.textView);
+        btnHome = findViewById(R.id.home1);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,5 +76,14 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 }

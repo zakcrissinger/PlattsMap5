@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -39,6 +41,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -76,6 +80,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<Polyline> polylinesList;
     private ArrayList<Integer> routeDurations;
 
+    public static int addParking=0;
+    public static int addLectureHall=0;
+    public static int addResidenceHall=0;
+
+
+
+    private static final LatLng ParkingWhiteface = new LatLng(44.6928, -73.4688);
+    private static final LatLng ParkingAusable = new LatLng(44.6969, -73.4686);
+
+    private static final LatLng LectureHallAusable = new LatLng(44.6975, -73.4686);
+    private static final LatLng LectureHallHawkins = new LatLng(44.6970, -73.4674);
+
+    private static final LatLng ResidenceHallWhiteface = new LatLng(44.6916, -73.4680);
+
+
+
+    private Marker mParkingWhiteface;
+    private Marker mParkingAusable;
+    private Marker mLectureHallAusable;
+    private Marker mLectureHallHawkins;
+    private Marker mResidenceHallWhiteface;
+
+
 
 
     public MapsActivity() {
@@ -96,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //get the spinner from the xml.
         Spinner dropdown = findViewById(R.id.spinner);
         //create a list of items for the spinner.
-        String[] items = new String[]{"GO TO...","Home", "Edit Schedule", "View Schedule"};
+        String[] items = new String[]{"GO TO...","Home", "Edit Schedule", "View Schedule", "Mark Parking","Mark Lecture Halls", "Mark Residence Halls"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -113,27 +140,57 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 switch(str){
                     case "Home":
+                        addParking =0;
+                        addLectureHall=0;
+                        addResidenceHall=0;
                         Intent intent = new Intent(MapsActivity.this,MainActivity.class);
                         startActivity(intent);
                         break;
 
                     case "Edit Schedule":
+
                         if (SignInStatus.SignedIn == false){
                             Toast.makeText(MapsActivity.this, "You must be signed in to edit schedule.",Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Intent l = new Intent(MapsActivity.this,ScheduleActivity.class);
+                            addParking= 0;
+                            addLectureHall=0;
+                            addResidenceHall=0;
                             startActivity(l);
                         }
                     case "View Schedule":
+
                         if (SignInStatus.SignedIn == false){
                             Toast.makeText(MapsActivity.this, "You must be signed in to view schedule.",Toast.LENGTH_SHORT).show();
                         }
                         else {
                             Intent intent1 = new Intent(MapsActivity.this, InputScheduleActivity.class);
+                            addParking=0;
+                            addLectureHall=0;
+                            addResidenceHall=0;
                             startActivity(intent1);
                         }
+
+                    case "Mark Parking":
+                        addParking += 1;
+                        Intent intent2 = new Intent(MapsActivity.this,MapsActivity.class);
+                        startActivity(intent2);
                         break;
+
+                    case "Mark Lecture Halls":
+                        addLectureHall += 1;
+                        Intent intent3 = new Intent(MapsActivity.this,MapsActivity.class);
+                        startActivity(intent3);
+                        break;
+
+                    case "Mark Residence Halls":
+                        addResidenceHall += 1;
+                        Intent intent4 = new Intent(MapsActivity.this,MapsActivity.class);
+                        startActivity(intent4);
+                        break;
+
+
 
 
                 }
@@ -178,6 +235,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ImageButton resetMap = findViewById(R.id.reset_map);
         resetMap.setOnClickListener(v -> {
             Toast.makeText(this, "Map has been reset", Toast.LENGTH_SHORT).show();
+            addParking = 0;
+            addLectureHall =0;
+            addResidenceHall =0;
             resetMap();
         });
     }
@@ -196,7 +256,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera.
      */
-    public void onMapSearch(View view) {
+    public void onMapSearch(View view){
         EditText locationSearch = findViewById(R.id.editText);
         String location = locationSearch.getText().toString();
         List<Address> addressList = null;
@@ -205,14 +265,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             addressList = geocoder.getFromLocationName(location, 1);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
+            Toast.makeText(this, "Please Input A Location", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-        assert addressList != null;
-        Address address = addressList.get(0);
-        endRoute = new LatLng(address.getLatitude(), address.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(endRoute).title(location).snippet(locationSnippet));
-        mMap.animateCamera(CameraUpdateFactory.newLatLng(endRoute));
+        if( addressList != null) {
+            Address address = addressList.get(0);
+            endRoute = new LatLng(address.getLatitude(), address.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(endRoute).title(location).snippet(locationSnippet));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(endRoute));
+        }
     }
 
     @Override
@@ -261,6 +323,65 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        int markerHeight = 80;
+        int markerWidth = 80;
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable. parking);
+        Bitmap parkingMarker = Bitmap.createScaledBitmap(b, markerWidth, markerHeight, false);
+        BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(parkingMarker);
+
+        Bitmap b1 = BitmapFactory.decodeResource(getResources(), R.drawable. lecture);
+        Bitmap lectureHallMarker = Bitmap.createScaledBitmap(b1, markerWidth, markerHeight, false);
+        BitmapDescriptor smallLectureIcon = BitmapDescriptorFactory.fromBitmap(lectureHallMarker);
+
+        Bitmap b2 = BitmapFactory.decodeResource(getResources(), R.drawable. residence);
+        Bitmap residenceHallMarker = Bitmap.createScaledBitmap(b2, markerWidth, markerHeight, false);
+        BitmapDescriptor smallResidenceIcon = BitmapDescriptorFactory.fromBitmap(residenceHallMarker);
+
+
+
+
+        if (addParking >=1) {
+            mParkingWhiteface = mMap.addMarker(new MarkerOptions()
+                    .position(ParkingWhiteface)
+                    .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                    .title("Off Campus Parking"));
+            mParkingWhiteface.setTag(0);
+
+            mParkingAusable = mMap.addMarker(new MarkerOptions()
+                    .position(ParkingAusable)
+                    .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                    .title("Off Campus Parking"));
+            mParkingAusable.setTag(0);
+
+        }
+
+        if (addLectureHall >=1){
+            mLectureHallAusable = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallAusable)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Ausable Hall"));
+            mLectureHallAusable.setTag(0);
+
+            mLectureHallHawkins = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallHawkins)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Hawkins Hall"));
+            mLectureHallHawkins.setTag(0);
+
+
+        }
+
+        if (addResidenceHall >=1){
+            mResidenceHallWhiteface = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallWhiteface)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Whiteface Hall"));
+            mResidenceHallWhiteface.setTag(0);
+        }
+
+
+
+
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnPolylineClickListener(this);
         LatLng one = new LatLng(44.6960, -73.4669);
