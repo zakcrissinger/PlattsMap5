@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +71,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else{
             getClasses();
         }
+        nextClass.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                if(SignInStatus.NextClassLocation != null){
+                    System.out.println(SignInStatus.NextClassLocation);
+                    Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
     }
 
     private void fixGoogleMapBug() {
@@ -212,8 +223,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //
                // }
                 if(day == cls.get(2).charAt(j)){
-                    System.out.println("day is " + day);
-                    System.out.println("class day is" + cls.get(2).charAt(j) );
                     int classHour;
                     if(cls.get(3).length() == 4){
                         classHour = Character.getNumericValue(cls.get(3).charAt(0));
@@ -241,6 +250,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else{
             List<String> closeClass = list.get(theClass);
             String message = "Your next class is " + closeClass.get(0) + " in " + closeClass.get(1) + " Hall at " + closeClass.get(3);
+            SignInStatus.NextClassLocation = closeClass.get(1)+" Hall";
             nextClass.setText(message);
         }
 
