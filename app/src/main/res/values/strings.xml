@@ -23,4 +23,15 @@
         <item>Friday</item>
         <item>Saturday</item>
     </string-array>
+    <string-array name="halls">
+        <item>AuSable</item>
+        <item>Beaumont</item>
+        <item>Hawkins</item>
+        <item>Hudson</item>
+        <item>Redcay</item>
+        <item>Saranac</item>
+        <item>Sibley</item>
+        <item>Ward</item>
+        <item>Yokum</item>
+    </string-array>
 </resources>
