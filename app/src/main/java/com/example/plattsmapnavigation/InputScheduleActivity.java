@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,10 +17,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,7 +48,9 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
     private int[] IDs= new int[50];
     private boolean flag = false;
     private String[][] daysSelected = new String[5][7];
+    private String[][] timesSelected = new String[5][2];
     private int dNum = 0;
+    private int tNum = 0;
     private String[] _halls = {"AuSable","Beaumont","Hawkins","Hudson","Redcay","Saranac","Sibley","Ward","Yokum"};
     private void setIDs(){
         int i = 0;
@@ -86,7 +91,17 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
         edit_days.setOnItemSelectedListener(this);
         count +=1;
         r1.addView(edit_days);
+        Button btn = new Button(this);
+        btn.setText("Time");
+        btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                addTimePicker();
+            }
+        });
+        r1.addView(btn);
         //start text
+        /*
         EditText edit_start = new EditText(this);
         edit_start.setId(IDs[count]);
         edit_start.setInputType(32);
@@ -99,7 +114,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
         edit_end.setWidth(width/6);
         edit_end.setInputType(32);
         count +=1;
-        r1.addView(edit_end);
+        r1.addView(edit_end);*/
         //add row
         table.addView(r1);
     }
@@ -109,6 +124,8 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
             Toast.makeText(InputScheduleActivity.this, "Add days to class before entering new class",Toast.LENGTH_SHORT).show();
         }
         else{
+            dNum++;
+            tNum++;
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int width = displayMetrics.widthPixels;
@@ -140,8 +157,17 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
             edit_days.setOnItemSelectedListener(this);
             count +=1;
             r1.addView(edit_days);
+            Button btn = new Button(this);
+            btn.setText("Time");
+            btn.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    addTimePicker();
+                }
+            });
+            r1.addView(btn);
             //start text
-            EditText edit_start = new EditText(this);
+            /*EditText edit_start = new EditText(this);
             edit_start.setId(IDs[count]);
             edit_start.setInputType(32);
             edit_start.setWidth(width/6);
@@ -154,7 +180,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
             edit_end.setInputType(32);
             count +=1;
             r1.addView(edit_end);
-            //add row
+            //add row*/
             table.addView(r1);
         }
     }
@@ -177,6 +203,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
         addClass = findViewById(R.id.addClass);
         addClass.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                flag = false;
                 if (count < 30){
                     addRow2(v);
                 }
@@ -212,9 +239,9 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
                 }
                 x++;
             }
-            EditText _start = findViewById(i+3);
-            EditText _end = findViewById(i+4);
-            String text = _class.getText() + " " + _loc.getSelectedItem().toString() + " " + theDays + " " + _start.getText() + " " + _end.getText() + "\n";
+            //EditText _start = findViewById(i+3);
+            //EditText _end = findViewById(i+4);
+            String text = _class.getText() + " " + _loc.getSelectedItem().toString() + " " + theDays + " " + timesSelected[j][0] + " " + timesSelected[j][1] + "\n";
             ManageFirestore.newClass(SignInStatus.UserName, text);
             i += 6;
             j++;
@@ -225,16 +252,11 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        /*if(daysSelected[dNum][0] == "Sunday"){
-            daysSelected[dNum][0] = null;
-        }*/
-
-        //NEEDS WORK!!
         boolean flag2 = true;
         if(Arrays.asList(_halls).contains(parent.getItemAtPosition(position))){
-            System.out.println(parent.getItemAtPosition(position)+"???????????????????");
             flag2 = false;
         }
+        //check time spinner, slice first 2 ints to check
         int i = 0;
         //new int to keep track of which array of days being accessed in dayArray array
         if(flag2){
@@ -258,5 +280,36 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+    }
+    public void addTimePicker(){
+        TimePickerDialog mTimePicker;
+        mTimePicker = new TimePickerDialog(InputScheduleActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                if(selectedMinute<10){
+                    timesSelected[tNum][1] = String.valueOf(selectedHour)+":0"+String.valueOf(selectedMinute);
+                }
+                else{
+                    timesSelected[tNum][1] = String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute);
+                }
+                System.out.println(timesSelected[tNum][1]);
+            }
+        }, 0, 0, true);//Yes 24 hour time
+        mTimePicker.setTitle("Select End Time");
+        mTimePicker.show();
+        mTimePicker = new TimePickerDialog(InputScheduleActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                if(selectedMinute<10){
+                    timesSelected[tNum][0] = String.valueOf(selectedHour)+":0"+String.valueOf(selectedMinute);
+                }
+                else{
+                    timesSelected[tNum][0] = String.valueOf(selectedHour)+":"+String.valueOf(selectedMinute);
+                }
+                System.out.println(timesSelected[tNum][0]);
+            }
+        }, 0, 0, true);//Yes 24 hour time
+        mTimePicker.setTitle("Select Start Time");
+        mTimePicker.show();
     }
 }
