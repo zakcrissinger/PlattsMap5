@@ -231,7 +231,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) throws NullPointerException{
         boolean flag2 = true;
-        if(Arrays.<String>asList(_halls).contains(parent.getItemAtPosition(position))){
+        if(Arrays.asList(_halls).contains(parent.getItemAtPosition(position))){
             flag2 = false;
         }
         //check time spinner, slice first 2 ints to check
