@@ -219,6 +219,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for(List<String> cls: list){
             int j = 0;
             while(j < cls.get(2).length()){
+                System.out.println("!!!!!!!!!!");
+                System.out.println(cls.get(2).charAt(j));
                 //if(day == 'T'){
                 //
                // }
@@ -231,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         classHour = Character.getNumericValue(cls.get(3).charAt(0))*10;
                         classHour = classHour + Character.getNumericValue(cls.get(3).charAt(1));
                     }
+                    System.out.println("???????????");
                     int classMin = Character.getNumericValue(cls.get(3).charAt(0))*10;
                     classMin = classMin + Character.getNumericValue(cls.get(3).charAt(1));
                     int now = times[0] + times[1]/60;
@@ -245,6 +248,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             i++;
         }
         if(timeGap == 100000000){
+
             nextClass.setText("No more classes for the day!");
         }
         else{
@@ -276,9 +280,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             List<String> list = new ArrayList<>();
                             list.add(document.getString("class"));
                             list.add(document.getString("location"));
+                            list.add(document.getString("days"));
                             list.add(document.getString("start"));
                             list.add(document.getString("end"));
-                            list.add(document.getString("days"));
                             classes.add(list);
                         }
                     }
