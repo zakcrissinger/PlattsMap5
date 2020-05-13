@@ -231,7 +231,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) throws NullPointerException{
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         boolean flag2 = true;
         if(Arrays.asList(_halls).contains(parent.getItemAtPosition(position))){
             flag2 = false;
@@ -249,7 +249,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
                     i++;
                 }
                 for(String x: daysSelected[dNum]){
-                    System.out.println(x);
+                    //System.out.println(x);
                 }
             }
             else{

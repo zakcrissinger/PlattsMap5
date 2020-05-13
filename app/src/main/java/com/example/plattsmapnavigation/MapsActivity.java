@@ -54,7 +54,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/* TODO: -have info window pop up right as marker is placed*/
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener,
@@ -65,7 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String google_maps_api_key = "AIzaSyAifXCHf536CDtqHh6Qge2QYcTPvNp5BBU";
     private static final String locationSnippet = "Tap Here For Directions";
     private static final String TAG = "MapsActivity";
-    private GoogleMap mMap;
+    private static GoogleMap mMap;
     Double myLongitude = null;
     Double myLatitude = null;
     LatLng myLocation = null;
@@ -75,6 +74,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationCallback locationCallback;
     private List<Polyline> polylinesList;
     private ArrayList<Integer> routeDurations;
+
+    public static boolean next_class = false;
 
     public static int addParking=0;
     public static int addLectureHall=0;
@@ -87,6 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final LatLng LectureHallAusable = new LatLng(44.6975, -73.4686);
     private static final LatLng LectureHallHawkins = new LatLng(44.6970, -73.4674);
+    private static final LatLng LectureHallRedcay = new LatLng(44.696764699999996,-73.4655659);
 
     private static final LatLng ResidenceHallWhiteface = new LatLng(44.6916, -73.4680);
 
@@ -266,6 +268,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             LatLng searchedLatLng = new LatLng(address.getLatitude(), address.getLongitude());
             Marker marker = mMap.addMarker(new MarkerOptions().position(searchedLatLng).title(location).snippet(locationSnippet));
             marker.showInfoWindow();
+            Log.d(TAG, String.valueOf(searchedLatLng));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(searchedLatLng));
         }
     }
@@ -322,6 +325,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Marker mLectureHallAusable;
         Marker mLectureHallHawkins;
         Marker mResidenceHallWhiteface;
+
+        if(next_class != false) {
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .title(MainActivity.title)
+                    .position(MainActivity.coordinates)
+                    .snippet(locationSnippet)
+            );
+            marker.showInfoWindow();
+            next_class = false;
+        }
+
+        /*
+
+         */
 
         int markerHeight = 80;
         int markerWidth = 80;
@@ -543,6 +560,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 polylineSelect.setColor(ContextCompat.getColor(this, R.color.grey1));
                 polylineSelect.setZIndex(0);            }
+        }
+    }
+
+    public static void setMarker(LatLng latlng, String title) throws NullPointerException{
+        try {
+            //Log.d(TAG, "adding marker to map ###############################################");
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .title(title)
+                    .position(latlng)
+                    .snippet(locationSnippet)
+            );
+            marker.showInfoWindow();
+            //Log.d(TAG, "marker should be on the map ##############################################");
+        } catch (NullPointerException e) {
+            //Log.d(TAG, e + "#########################################################");
         }
     }
 
