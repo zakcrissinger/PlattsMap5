@@ -100,6 +100,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
             }
         });
         r1.addView(btn);
+        count+=2;
         //start text
         /*
         EditText edit_start = new EditText(this);
@@ -166,6 +167,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
                 }
             });
             r1.addView(btn);
+            count+=2;
             //start text
             /*EditText edit_start = new EditText(this);
             edit_start.setId(IDs[count]);
@@ -241,7 +243,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
             }
             //EditText _start = findViewById(i+3);
             //EditText _end = findViewById(i+4);
-            String text = _class.getText() + " " + _loc.getSelectedItem().toString() + " " + theDays + " " + timesSelected[j][0] + " " + timesSelected[j][1] + "\n";
+            String text = _class.getText().toString() + " " + _loc.getSelectedItem().toString() + " " + theDays + " " + timesSelected[j][0] + " " + timesSelected[j][1] + "\n";
             ManageFirestore.newClass(SignInStatus.UserName, text);
             i += 6;
             j++;
@@ -261,7 +263,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
         //new int to keep track of which array of days being accessed in dayArray array
         if(flag2){
             if(flag){
-                while(i  < 7){
+                while(i < 7){
                     if(daysSelected[dNum][i] == null){
                         daysSelected[dNum][i] = parent.getItemAtPosition(position).toString();
                         break;
