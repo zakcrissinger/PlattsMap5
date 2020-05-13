@@ -264,7 +264,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if( addressList != null) {
             Address address = addressList.get(0);
             LatLng searchedLatLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(searchedLatLng).title(location).snippet(locationSnippet));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(searchedLatLng).title(location).snippet(locationSnippet));
+            marker.showInfoWindow();
             mMap.animateCamera(CameraUpdateFactory.newLatLng(searchedLatLng));
         }
     }
