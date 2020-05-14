@@ -107,13 +107,6 @@
                 android:layout_gravity="center"
                 android:layout_weight=".50"
                 android:text="Ward Hall" />
-            <RadioButton
-                android:id="@+id/whiteface"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Whiteface Hall" />
 
             <TextView
                 android:id="@+id/dining"
@@ -298,7 +291,7 @@
                 android:layout_gravity="center"
                 android:layout_weight=".50"
                 android:text="Wilson Hall" />
-            
+
         </RadioGroup>
 
     </ScrollView>
