@@ -50,10 +50,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static LatLng coordinates = null;
     public static String title = null;
 
-    private static final LatLng LectureHallAusable = new LatLng(44.6975, -73.4686);
-    private static final LatLng LectureHallHawkins = new LatLng(44.6970, -73.4674);
-    private static final LatLng LectureHallRedcay = new LatLng(44.696764699999996,-73.4655659);
-
 
 
 
@@ -87,19 +83,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d(TAG, SignInStatus.NextClassLocation);
                 switch(SignInStatus.NextClassLocation) {
                     case("Redcay Hall"):
-                        coordinates = LectureHallRedcay;
+                        coordinates = MapsActivity.LectureHallRedcay;
                         title = SignInStatus.NextClassLocation;
                         MapsActivity.next_class = true;
                     case("Ausable Hall"):
-                        coordinates = LectureHallAusable;
+                        //coordinates = MapsActivity.LectureHallAusable;
                         title = SignInStatus.NextClassLocation;
                         MapsActivity.next_class = true;
                     case("Hawkins Hall"):
-                        coordinates = LectureHallHawkins;
+                        //coordinates = MapsActivity.LectureHallHawkins;
                         title = SignInStatus.NextClassLocation;
                         MapsActivity.next_class = true;
                     case("Beaumont Hall"):
-                        coordinates = LectureHallRedcay;
+                        coordinates = MapsActivity.LectureHallRedcay;
                         title = SignInStatus.NextClassLocation;
                         MapsActivity.next_class = true;
                 }

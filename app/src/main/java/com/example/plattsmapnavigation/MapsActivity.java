@@ -88,7 +88,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final LatLng LectureHallAusable = new LatLng(44.6975, -73.4686);
     private static final LatLng LectureHallHawkins = new LatLng(44.6970, -73.4674);
-    private static final LatLng LectureHallRedcay = new LatLng(44.696764699999996,-73.4655659);
+    public static final LatLng LectureHallRedcay = new LatLng(44.696764699999996,-73.4655659);
 
     private static final LatLng ResidenceHallWhiteface = new LatLng(44.6916, -73.4680);
 
