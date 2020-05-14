@@ -227,21 +227,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             itemselector=0;
                             startActivity(l);
                         }
+                        break;
+                        
                     case "View Schedule":
 
                         if (SignInStatus.SignedIn == false){
                             Toast.makeText(MapsActivity.this, "You must be signed in to view schedule.",Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            Intent intent1 = new Intent(MapsActivity.this, InputScheduleActivity.class);
+
                             addParking=0;
                             addLectureHall=0;
                             addResidenceHall=0;
                             addServiceArea=0;
                             addDiningHall=0;
                             itemselector=0;
+                            Intent intent1 = new Intent(MapsActivity.this, InputScheduleActivity.class);
                             startActivity(intent1);
                         }
+                        break;
 
                     case "Mark Parking":
                         addParking += 1;
