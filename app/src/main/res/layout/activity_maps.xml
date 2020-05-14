@@ -11,13 +11,14 @@
         android:orientation="horizontal">
 
 
-        <EditText
+        <TextView
             android:id="@+id/editText"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/search_location_here" />
+            android:textSize="30dp"
+            android:hint="" />
 
         <Button
             android:id="@+id/search_button"
