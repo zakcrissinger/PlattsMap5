@@ -340,21 +340,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Create a new instance of Intent to start DetailActivity
         final Intent intent = new Intent(this, MapSearch.class);
 
-<<<<<<< HEAD
         // Start DetailActivity with the request code
         startActivityForResult(intent, REQUEST_CODE);
-=======
-        } catch (Exception e) {
-            Toast.makeText(this, "Please Input A Location", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-        if( addressList != null) {
-            Address address = addressList.get(0);
-            LatLng searchedLatLng = new LatLng(address.getLatitude(), address.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(searchedLatLng).title(location).snippet(locationSnippet));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(searchedLatLng));
-        }
->>>>>>> fa90837667f42180db093ca9096b93cfad0b4506
+
     }
 
     @Override
@@ -470,48 +458,57 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mLectureHallHudson = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallHudson)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .snippet(locationSnippet)
                     .title("Hudson Hall + Annex"));
+
             mLectureHallHudson.setTag(0);
 
             mLectureHallWard = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallWard)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .snippet(locationSnippet)
                     .title("Ward Hall"));
             mLectureHallWard.setTag(0);
 
             mLectureHallMemorial = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallMemorial)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .snippet(locationSnippet)
                     .title("Memorial Hall"));
             mLectureHallMemorial.setTag(0);
 
             mLectureHallRedcay = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallRedcay)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .snippet(locationSnippet)
                     .title("Redcay Hall"));
             mLectureHallRedcay.setTag(0);
 
             mLectureHallSibley = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallSibley)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .snippet(locationSnippet)
                     .title("Sibley Hall"));
             mLectureHallSibley.setTag(0);
 
             mLectureHallYokum = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallYokum)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .snippet(locationSnippet)
                     .title("Yokum Hall"));
             mLectureHallYokum.setTag(0);
 
             mLectureHallBeaumont = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallBeaumont)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .snippet(locationSnippet)
                     .title("Beaumont Hall"));
             mLectureHallBeaumont.setTag(0);
 
             mLectureHallChamplain = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallChamplain)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .snippet(locationSnippet)
                     .title("Champlain Valley Hall"));
             mLectureHallChamplain.setTag(0);
 
@@ -529,66 +526,77 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mResidenceHallKent = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallKent)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Kent Hall"));
             mResidenceHallKent.setTag(0);
 
             mResidenceHallMacomb = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallMacomb)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Macomb Hall"));
             mResidenceHallMacomb.setTag(0);
 
             mResidenceHallHarrington = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallHarrington)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Harrington Hall"));
             mResidenceHallHarrington.setTag(0);
 
             mResidenceHallMacdonough = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallMacdonough)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Macdonough Hall"));
             mResidenceHallMacdonough.setTag(0);
 
             mResidenceHallMason = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallMason)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Mason Hall"));
             mResidenceHallMason.setTag(0);
 
             mResidenceHallHood = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallHood)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Hood Hall"));
             mResidenceHallHood.setTag(0);
 
             mResidenceHalldeFredenburgh = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHalldeFredenburgh)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("deFredenburgh Hall"));
             mResidenceHalldeFredenburgh.setTag(0);
 
             mResidenceHallMoffitt = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallMoffitt)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Moffitt Hall"));
             mResidenceHallMoffitt.setTag(0);
 
             mResidenceHallWilson = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallWilson)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Wilson Hall"));
             mResidenceHallWilson.setTag(0);
 
             mResidenceHallAdirondack = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallAdirondack)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Adirondack Hall"));
             mResidenceHallAdirondack.setTag(0);
 
             mResidenceHallBanks = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallBanks)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .snippet(locationSnippet)
                     .title("Banks Hall"));
             mResidenceHallBanks.setTag(0);
 
@@ -599,12 +607,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mDiningHallClinton = mMap.addMarker(new MarkerOptions()
                     .position(DiningHallClinton)
                     .icon(BitmapDescriptorFactory.fromBitmap(diningHallMarker))
+                    .snippet(locationSnippet)
                     .title("Clinton Dining Hall"));
             mDiningHallClinton.setTag(0);
 
             mDiningHallAlgonquin = mMap.addMarker(new MarkerOptions()
                     .position(DiningHallAlgonquin)
                     .icon(BitmapDescriptorFactory.fromBitmap(diningHallMarker))
+                    .snippet(locationSnippet)
                     .title("Algonquin Dining Hall"));
             mDiningHallAlgonquin.setTag(0);
 
@@ -617,36 +627,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mServiceAreaKehoe = mMap.addMarker(new MarkerOptions()
                     .position(ServiceAreaKehoe)
                     .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .snippet(locationSnippet)
                     .title("Kehoe Administration Building"));
             mServiceAreaKehoe.setTag(0);
 
             mServiceAreaAngel = mMap.addMarker(new MarkerOptions()
                     .position(ServiceAreaAngel)
                     .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .snippet(locationSnippet)
                     .title("Angell College Center"));
             mServiceAreaAngel.setTag(0);
 
             mServiceAreaPoliceHealth = mMap.addMarker(new MarkerOptions()
                     .position(ServiceAreaPoliceHealth)
                     .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .snippet(locationSnippet)
                     .title("Health Center/University Police"));
             mServiceAreaPoliceHealth.setTag(0);
 
             mServiceAreaLibrary = mMap.addMarker(new MarkerOptions()
                     .position(ServiceAreaLibrary)
                     .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .snippet(locationSnippet)
                     .title("Feinberg Library"));
             mServiceAreaLibrary.setTag(0);
 
             mServiceAreaArt = mMap.addMarker(new MarkerOptions()
                     .position(ServiceAreaArt)
                     .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .snippet(locationSnippet)
                     .title("Myers Fine Arts Building"));
             mServiceAreaArt.setTag(0);
 
             mLectureHallSaranac = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallSaranac)
                     .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .snippet(locationSnippet)
                     .title("Saranac Hall"));
             mLectureHallSaranac.setTag(0);
         }
