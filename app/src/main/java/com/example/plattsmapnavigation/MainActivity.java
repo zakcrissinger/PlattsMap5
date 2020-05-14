@@ -1,13 +1,15 @@
 package com.example.plattsmapnavigation;
 
+import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,15 +19,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-
-import android.view.Menu;
-
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -34,10 +35,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     public static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static final String TAG = "MainActivity";
+    private static final String locationSnippet = "Tap Here For Directions";
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     NavigationView navigationView;
@@ -45,6 +46,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Menu menu;
     public TextView welcomeMessage, nextClass;
     List<List<String>> allClasses;
+
+    public static LatLng coordinates = null;
+    public static String title = null;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,26 +78,76 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else{
             getClasses();
         }
-        nextClass.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                if(SignInStatus.NextClassLocation != null){
-                    System.out.println(SignInStatus.NextClassLocation);
-                    Intent i = new Intent(MainActivity.this, MapsActivity.class);
-                    startActivity(i);
+        nextClass.setOnClickListener(v -> {
+            if(SignInStatus.NextClassLocation != null){
+                Log.d(TAG, SignInStatus.NextClassLocation);
+                switch(SignInStatus.NextClassLocation) {
+                    case("Redcay Hall"):
+                        coordinates = MapsActivity.LectureHallRedcay;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Ausable Hall"):
+                        coordinates = MapsActivity.LectureHallAusable;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Hawkins Hall"):
+                        coordinates = MapsActivity.LectureHallHawkins;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Beaumont Hall"):
+                        coordinates = MapsActivity.LectureHallBeaumont;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Ward Hall"):
+                        coordinates = MapsActivity.LectureHallWard;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Hudson Hall"):
+                        coordinates = MapsActivity.LectureHallHudson;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Memorial Hall"):
+                        coordinates = MapsActivity.LectureHallMemorial;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Sibley Hall"):
+                        coordinates = MapsActivity.LectureHallSibley;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Yokum Hall"):
+                        coordinates = MapsActivity.LectureHallYokum;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Champlain Hall"):
+                        coordinates = MapsActivity.LectureHallChamplain;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Saranac Hall"):
+                        coordinates = MapsActivity.LectureHallSaranac;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+
                 }
+
+                Intent i = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(i);
+
+
             }
         });
     }
 
-    private void fixGoogleMapBug() {
-        SharedPreferences googleBug = getSharedPreferences("google_bug", Context.MODE_PRIVATE);
-        if (!googleBug.contains("fixed")) {
-            File corruptedZoomTables = new File(getFilesDir(), "ZoomTables.data");
-            corruptedZoomTables.delete();
-            googleBug.edit().putBoolean("fixed", true).apply();
-        }
-    }
     public void AdjustSignInState(Menu menu){
         if (SignInStatus.SignedIn){
             menu.findItem(R.id.signin).setVisible(false);
@@ -263,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private String getClasses() {
-        Query qClasses;
+        CollectionReference qClasses;
         List<List<String>> classes = new ArrayList<>();
         try {
             qClasses = db.collection("users").document(SignInStatus.UserName).collection("classes");
