@@ -28,7 +28,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/lecture"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
@@ -37,29 +37,85 @@
                 android:text="Lecture Halls" />
 
             <RadioButton
-                android:id="@+id/radio1"
+                android:id="@+id/ausable"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight=".50"
                 android:text="Ausable Hall" />
 
+
             <RadioButton
-                android:id="@+id/radio2"
+                android:id="@+id/beaumont"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Beaumont Hall" />
+
+            <RadioButton
+                android:id="@+id/champlain"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Champlain Valley Hall" />
+
+            <RadioButton
+                android:id="@+id/hawkins"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight=".50"
                 android:text="Hawkins Hall" />
             <RadioButton
-                android:id="@+id/radio3"
+                android:id="@+id/hudson"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Hudson Hall" />
+            <RadioButton
+                android:id="@+id/memorial"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Memorial Hall" />
+
+            <RadioButton
+                android:id="@+id/redcay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Redcay Hall" />
+
+            <RadioButton
+                android:id="@+id/saranac"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Saranac Hall" />
+
+            <RadioButton
+                android:id="@+id/sibley"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Sibley Hall" />
+
+            <RadioButton
+                android:id="@+id/ward"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight=".50"
                 android:text="Ward Hall" />
             <RadioButton
-                android:id="@+id/radio4"
+                android:id="@+id/whiteface"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -174,6 +230,15 @@
                 android:layout_gravity="center"
                 android:layout_weight=".50"
                 android:text="Button2" />
+
+            <TextView
+                android:id="@+id/diningText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".50"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:text="Dining Halls" />
         </RadioGroup>
 
     </ScrollView>

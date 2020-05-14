@@ -670,10 +670,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if(resultCode == Activity.RESULT_OK) {
                 // Get the result from the returned Intent
                 final String result = data.getStringExtra(MapSearch.EXTRA_DATA);
-                if (result.equals("Ausable Hall")){
-                    addParking+=1;
-                    Intent intent2 = new Intent(MapsActivity.this,MapsActivity.class);
-                    startActivity(intent2);
+                Toast.makeText(MapsActivity.this, result,
+                        Toast.LENGTH_LONG).show();
 
                 }
 
@@ -681,7 +679,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         }
-    }
+
 
     @Override
     public void onInfoWindowClick(final Marker marker) {
