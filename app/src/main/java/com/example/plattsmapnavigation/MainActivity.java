@@ -86,18 +86,58 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         coordinates = MapsActivity.LectureHallRedcay;
                         title = SignInStatus.NextClassLocation;
                         MapsActivity.next_class = true;
+                        break;
                     case("Ausable Hall"):
-                        //coordinates = MapsActivity.LectureHallAusable;
+                        coordinates = MapsActivity.LectureHallAusable;
                         title = SignInStatus.NextClassLocation;
                         MapsActivity.next_class = true;
+                        break;
                     case("Hawkins Hall"):
-                        //coordinates = MapsActivity.LectureHallHawkins;
+                        coordinates = MapsActivity.LectureHallHawkins;
                         title = SignInStatus.NextClassLocation;
                         MapsActivity.next_class = true;
+                        break;
                     case("Beaumont Hall"):
-                        coordinates = MapsActivity.LectureHallRedcay;
+                        coordinates = MapsActivity.LectureHallBeaumont;
                         title = SignInStatus.NextClassLocation;
                         MapsActivity.next_class = true;
+                        break;
+                    case("Ward Hall"):
+                        coordinates = MapsActivity.LectureHallWard;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Hudson Hall"):
+                        coordinates = MapsActivity.LectureHallHudson;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Memorial Hall"):
+                        coordinates = MapsActivity.LectureHallMemorial;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Sibley Hall"):
+                        coordinates = MapsActivity.LectureHallSibley;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Yokum Hall"):
+                        coordinates = MapsActivity.LectureHallYokum;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Champlain Hall"):
+                        coordinates = MapsActivity.LectureHallChamplain;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+                    case("Saranac Hall"):
+                        coordinates = MapsActivity.LectureHallSaranac;
+                        title = SignInStatus.NextClassLocation;
+                        MapsActivity.next_class = true;
+                        break;
+
                 }
 
                 Intent i = new Intent(MainActivity.this, MapsActivity.class);

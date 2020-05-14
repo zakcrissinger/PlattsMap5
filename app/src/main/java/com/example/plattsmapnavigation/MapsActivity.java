@@ -77,6 +77,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private List<Polyline> polylinesList;
     private ArrayList<Integer> routeDurations;
 
+    public static boolean next_class = false;
+
     public static int addParking=0;
     public static int addLectureHall=0;
     public static int addResidenceHall=0;
@@ -91,17 +93,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final LatLng ParkingWhiteface = new LatLng(44.6928, -73.4688);
     private static final LatLng ParkingAusable = new LatLng(44.6969, -73.4686);
 
-    private static final LatLng LectureHallAusable = new LatLng(44.6975, -73.4686);
-    private static final LatLng LectureHallHawkins = new LatLng(44.6970, -73.4674);
-    private static final LatLng LectureHallWard = new LatLng(44.6965, -73.4686);
-    private static final LatLng LectureHallHudson = new LatLng(44.6957, -73.4674);
-    private static final LatLng LectureHallMemorial = new LatLng(44.693110, -73.464724);
-    private static final LatLng LectureHallSibley = new LatLng(44.688763, -73.469939);
-    private static final LatLng LectureHallRedcay = new LatLng(44.696710, -73.465518);
-    private static final LatLng LectureHallYokum = new LatLng(44.694285, -73.466997);
-    private static final LatLng LectureHallBeaumont = new LatLng(44.695093, -73.467512);
-    private static final LatLng LectureHallChamplain = new LatLng(44.691874, -73.467834);
-    private static final LatLng LectureHallSaranac = new LatLng(44.692256, -73.465816);
+    public static final LatLng LectureHallAusable = new LatLng(44.6975, -73.4686);
+    public static final LatLng LectureHallHawkins = new LatLng(44.6970, -73.4674);
+    public static final LatLng LectureHallWard = new LatLng(44.6965, -73.4686);
+    public static final LatLng LectureHallHudson = new LatLng(44.6957, -73.4674);
+    public static final LatLng LectureHallMemorial = new LatLng(44.693110, -73.464724);
+    public static final LatLng LectureHallSibley = new LatLng(44.688763, -73.469939);
+    public static final LatLng LectureHallRedcay = new LatLng(44.696710, -73.465518);
+    public static final LatLng LectureHallYokum = new LatLng(44.694285, -73.466997);
+    public static final LatLng LectureHallBeaumont = new LatLng(44.695093, -73.467512);
+    public static final LatLng LectureHallChamplain = new LatLng(44.691874, -73.467834);
+    public static final LatLng LectureHallSaranac = new LatLng(44.692256, -73.465816);
 
     private static final LatLng ResidenceHallWhiteface = new LatLng(44.6916, -73.4680);
     private static final LatLng ResidenceHallKent = new LatLng(44.6909, -73.4670);
@@ -429,14 +431,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Marker mParkingWhiteface;
-        Marker mParkingAusable;
-        Marker mLectureHallAusable;
-        Marker mLectureHallHawkins;
-        Marker mResidenceHallWhiteface;
+        final int markerHeight = 80;
+        final int markerWidth = 80;
 
-        int markerHeight = 80;
-        int markerWidth = 80;
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.parking);
         Bitmap parkingMarker = Bitmap.createScaledBitmap(b, markerWidth, markerHeight, false);
         BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(parkingMarker);
@@ -449,14 +446,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bitmap residenceHallMarker = Bitmap.createScaledBitmap(b2, markerWidth, markerHeight, false);
         BitmapDescriptor smallResidenceIcon = BitmapDescriptorFactory.fromBitmap(residenceHallMarker);
 
-        Bitmap b3 = BitmapFactory.decodeResource(getResources(), R.drawable. dining);
+        Bitmap b3 = BitmapFactory.decodeResource(getResources(), R.drawable.dining);
         Bitmap diningHallMarker = Bitmap.createScaledBitmap(b3, markerWidth, markerHeight, false);
         BitmapDescriptor smallDiningIcon = BitmapDescriptorFactory.fromBitmap(diningHallMarker);
 
-        Bitmap b4 = BitmapFactory.decodeResource(getResources(), R.drawable. service);
+        Bitmap b4 = BitmapFactory.decodeResource(getResources(), R.drawable.service);
         Bitmap serviceAreaMarker = Bitmap.createScaledBitmap(b4, markerWidth, markerHeight, false);
         BitmapDescriptor smallServiceIcon = BitmapDescriptorFactory.fromBitmap(serviceAreaMarker);
 
+        if (next_class) {
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .title(MainActivity.title)
+                    .position(MainActivity.coordinates)
+                    .snippet(locationSnippet));
+            marker.showInfoWindow();
+            next_class = false;
+        }
 
 
 
@@ -1026,6 +1031,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(MapsActivity.this, result,
                         Toast.LENGTH_LONG).show();
 
+                assert result != null;
                 switch(result){
                     case "Ausable Hall":
                         itemselector =1;
@@ -1167,8 +1173,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 overridePendingTransition(0, 0);
 
                 }
-
-            } else {
 
             }
         }
