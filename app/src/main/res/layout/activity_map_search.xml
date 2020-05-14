@@ -91,13 +91,6 @@
                 android:layout_weight=".50"
                 android:text="Redcay Hall" />
 
-            <RadioButton
-                android:id="@+id/saranac"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Saranac Hall" />
 
             <RadioButton
                 android:id="@+id/sibley"
@@ -121,6 +114,33 @@
                 android:layout_gravity="center"
                 android:layout_weight=".50"
                 android:text="Whiteface Hall" />
+
+            <TextView
+                android:id="@+id/dining"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight=".50"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:text="Dining Halls" />
+
+            <RadioButton
+                android:id="@+id/clinton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Algonquin Dining Hall" />
+
+            <RadioButton
+                android:id="@+id/algonquin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Clinton Dining Hall" />
+
+
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
@@ -130,15 +150,57 @@
                 android:gravity="center"
                 android:text="Service Areas" />
             <RadioButton
-                android:id="@+id/radio5"
+                android:id="@+id/angell"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight=".50"
-                android:text="Button2" />
+                android:text="Angell College Center" />
+
+            <RadioButton
+                android:id="@+id/police"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Campus Police and Health" />
+
+
+
+            <RadioButton
+                android:id="@+id/feinberg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Feinberg Library" />
+
+            <RadioButton
+                android:id="@+id/kehoe"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Kehoe Administration Office" />
+
+            <RadioButton
+                android:id="@+id/myers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Myers Fine Arts Building" />
+
+            <RadioButton
+                android:id="@+id/saranac"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Saranac Hall" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/residence"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight=".50"
@@ -147,98 +209,96 @@
                 android:text="Residence Halls" />
 
             <RadioButton
-                android:id="@+id/radio6"
+                android:id="@+id/adirondack"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight=".50"
-                android:text="Button2" />
+                android:text="Adirondack Hall" />
             <RadioButton
-                android:id="@+id/radio7"
+                android:id="@+id/banks"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight=".50"
-                android:text="Button2" />
+                android:text="Banks Hall" />
             <RadioButton
-                android:id="@+id/radio8"
+                android:id="@+id/deFredenburgh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight=".50"
-                android:text="Button2" />
+                android:text="deFredenburgh Hall" />
             <RadioButton
-                android:id="@+id/radio9"
+                android:id="@+id/Harrington"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight=".50"
-                android:text="Button2" />
-            <RadioButton
-                android:id="@+id/radio10"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Button2" />
-            <RadioButton
-                android:id="@+id/radio11"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Button2" />
-            <RadioButton
-                android:id="@+id/radio12"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Button2" />
-            <RadioButton
-                android:id="@+id/radio13"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Button2" />
-            <RadioButton
-                android:id="@+id/radio14"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Button2" />
-            <RadioButton
-                android:id="@+id/radio15"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Button2" />
-            <RadioButton
-                android:id="@+id/radio16"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Button2" />
-            <RadioButton
-                android:id="@+id/radio17"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight=".50"
-                android:text="Button2" />
+                android:text="Harrington Hall" />
 
-            <TextView
-                android:id="@+id/diningText"
+            <RadioButton
+                android:id="@+id/hood"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_weight=".50"
-                android:textSize="25dp"
-                android:gravity="center"
-                android:text="Dining Halls" />
+                android:text="Hood Hall" />
+
+            <RadioButton
+                android:id="@+id/kent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Kent Hall" />
+
+            <RadioButton
+                android:id="@+id/Macdonough"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Macdonough Hall" />
+
+            <RadioButton
+                android:id="@+id/macomb"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Macomb Hall"/>
+
+            <RadioButton
+                android:id="@+id/mason"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Mason Hall" />
+
+            <RadioButton
+                android:id="@+id/Moffitt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Moffitt Hall" />
+            <RadioButton
+                android:id="@+id/whitefaceH"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Whiteface Hall" />
+            <RadioButton
+                android:id="@+id/wilson"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight=".50"
+                android:text="Wilson Hall" />
+            
         </RadioGroup>
 
     </ScrollView>
