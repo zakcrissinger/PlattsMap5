@@ -18,11 +18,16 @@ public class ManageFirestore {
     public static void newClass(String userName, String classInfo){
         String[] info = classInfo.split(" ");
         Map<String, Object> _class = new HashMap<>();
+        int i = 0;
+        for(String x: info){
+            System.out.println(x + " " + i);
+            i++;
+        }
         _class.put("class", info[0]);
         _class.put("location", info[1]);
-        _class.put("start", info[2]);
-        _class.put("end", info[3]);
-        _class.put("days", info[4]);
+        _class.put("start", info[3]);
+        _class.put("end", info[4]);
+        _class.put("days", info[2]);
         db.collection("users").document(userName).collection("classes")
                 .document().set(_class);
     }

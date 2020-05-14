@@ -24,7 +24,21 @@
         <item>Friday</item>
         <item>Saturday</item>
     </string-array>
+<<<<<<< HEAD
     <string name="title_activity_map_search">MapSearch</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
+=======
+    <string-array name="halls">
+        <item>AuSable</item>
+        <item>Beaumont</item>
+        <item>Hawkins</item>
+        <item>Hudson</item>
+        <item>Redcay</item>
+        <item>Saranac</item>
+        <item>Sibley</item>
+        <item>Ward</item>
+        <item>Yokum</item>
+    </string-array>
+>>>>>>> fa90837667f42180db093ca9096b93cfad0b4506
 </resources>

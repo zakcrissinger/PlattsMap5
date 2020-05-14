@@ -52,11 +52,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import android.content.DialogInterface;
+/* TODO: -have info window pop up right as marker is placed*/
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener,
@@ -310,7 +309,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         ImageButton resetMap = findViewById(R.id.reset_map);
         resetMap.setOnClickListener(v -> {
-            Toast.makeText(this, "Map has been reset", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Map reset", Toast.LENGTH_SHORT).show();
             addParking = 0;
             addLectureHall =0;
             addResidenceHall =0;
@@ -341,8 +340,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Create a new instance of Intent to start DetailActivity
         final Intent intent = new Intent(this, MapSearch.class);
 
+<<<<<<< HEAD
         // Start DetailActivity with the request code
         startActivityForResult(intent, REQUEST_CODE);
+=======
+        } catch (Exception e) {
+            Toast.makeText(this, "Please Input A Location", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        if( addressList != null) {
+            Address address = addressList.get(0);
+            LatLng searchedLatLng = new LatLng(address.getLatitude(), address.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(searchedLatLng).title(location).snippet(locationSnippet));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(searchedLatLng));
+        }
+>>>>>>> fa90837667f42180db093ca9096b93cfad0b4506
     }
 
     @Override
@@ -391,17 +403,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        Marker mParkingWhiteface;
+        Marker mParkingAusable;
+        Marker mLectureHallAusable;
+        Marker mLectureHallHawkins;
+        Marker mResidenceHallWhiteface;
+
         int markerHeight = 80;
         int markerWidth = 80;
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable. parking);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.parking);
         Bitmap parkingMarker = Bitmap.createScaledBitmap(b, markerWidth, markerHeight, false);
         BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(parkingMarker);
 
-        Bitmap b1 = BitmapFactory.decodeResource(getResources(), R.drawable. lecture);
+        Bitmap b1 = BitmapFactory.decodeResource(getResources(), R.drawable.lecture);
         Bitmap lectureHallMarker = Bitmap.createScaledBitmap(b1, markerWidth, markerHeight, false);
         BitmapDescriptor smallLectureIcon = BitmapDescriptorFactory.fromBitmap(lectureHallMarker);
 
-        Bitmap b2 = BitmapFactory.decodeResource(getResources(), R.drawable. residence);
+        Bitmap b2 = BitmapFactory.decodeResource(getResources(), R.drawable.residence);
         Bitmap residenceHallMarker = Bitmap.createScaledBitmap(b2, markerWidth, markerHeight, false);
         BitmapDescriptor smallResidenceIcon = BitmapDescriptorFactory.fromBitmap(residenceHallMarker);
 
@@ -420,13 +439,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mParkingWhiteface = mMap.addMarker(new MarkerOptions()
                     .position(ParkingWhiteface)
                     .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
-                    .title("Off Campus Parking"));
+                    .title("Off Campus Parking")
+                    .snippet(locationSnippet));
             mParkingWhiteface.setTag(0);
 
             mParkingAusable = mMap.addMarker(new MarkerOptions()
                     .position(ParkingAusable)
                     .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
-                    .title("Off Campus Parking"));
+                    .title("Off Campus Parking")
+                    .snippet(locationSnippet));
             mParkingAusable.setTag(0);
 
         }
@@ -435,13 +456,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mLectureHallAusable = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallAusable)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
-                    .title("Ausable Hall"));
+                    .title("Ausable Hall")
+                    .snippet(locationSnippet));
             mLectureHallAusable.setTag(0);
 
             mLectureHallHawkins = mMap.addMarker(new MarkerOptions()
                     .position(LectureHallHawkins)
                     .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
-                    .title("Hawkins Hall"));
+                    .title("Hawkins Hall")
+                    .snippet(locationSnippet));
             mLectureHallHawkins.setTag(0);
 
             mLectureHallHudson = mMap.addMarker(new MarkerOptions()
@@ -499,7 +522,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mResidenceHallWhiteface = mMap.addMarker(new MarkerOptions()
                     .position(ResidenceHallWhiteface)
                     .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
-                    .title("Whiteface Hall"));
+                    .title("Whiteface Hall")
+                    .snippet(locationSnippet));
             mResidenceHallWhiteface.setTag(0);
 
             mResidenceHallKent = mMap.addMarker(new MarkerOptions()
@@ -683,7 +707,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(final Marker marker) {
-
+        endRoute = marker.getPosition();
         if ( marker.getSnippet().equals(locationSnippet) ) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Show Directions for: ")
@@ -790,7 +814,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onPolylineClick(Polyline polyline) {
-
         int index = 0;  //used to display which route is selected
         for (Polyline polylineSelect : polylinesList) {
             index ++;
