@@ -1,15 +1,7 @@
 package com.example.plattsmapnavigation;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -17,30 +9,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class InputScheduleActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Button btnEnterSched, addClass;
@@ -51,7 +29,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
     private String[][] timesSelected = new String[5][2];
     private int dNum = 0;
     private int tNum = 0;
-    private String[] _halls = {"AuSable","Beaumont","Hawkins","Hudson","Redcay","Saranac","Sibley","Ward","Yokum"};
+    private static final String[] _halls = {"AuSable","Beaumont","Hawkins","Hudson","Redcay","Saranac","Sibley","Ward","Yokum"};
     private void setIDs(){
         int i = 0;
         while(i < IDs.length){
@@ -271,7 +249,7 @@ public class InputScheduleActivity extends AppCompatActivity implements AdapterV
                     i++;
                 }
                 for(String x: daysSelected[dNum]){
-                    System.out.println(x);
+                    //System.out.println(x);
                 }
             }
             else{
