@@ -15,6 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".MapSearch"
+            android:label="@string/title_activity_map_search"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".ScheduleActivity" />
         <activity android:name=".InputScheduleActivity" />
         <activity android:name=".SignUpActivity" />

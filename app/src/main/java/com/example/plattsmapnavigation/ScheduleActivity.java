@@ -38,9 +38,9 @@ public class ScheduleActivity extends AppCompatActivity{
                         //list.add();
                         list.add(document.getString("class"));
                         list.add(document.getString("location"));
-                        list.add(document.getString("days"));
                         list.add(document.getString("start"));
                         list.add(document.getString("end"));
+                        list.add(document.getString("days"));
                     }
                     Log.d(TAG, list.toString());
                     if(list == null){

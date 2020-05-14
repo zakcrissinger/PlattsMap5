@@ -1,6 +1,7 @@
 package com.example.plattsmapnavigation;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -79,6 +80,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static int addParking=0;
     public static int addLectureHall=0;
     public static int addResidenceHall=0;
+    public static int addDiningHall=0;
+    public static int addServiceArea=0;
+    static final int REQUEST_CODE=0;
 
 
 
@@ -87,11 +91,72 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final LatLng LectureHallAusable = new LatLng(44.6975, -73.4686);
     private static final LatLng LectureHallHawkins = new LatLng(44.6970, -73.4674);
+    private static final LatLng LectureHallWard = new LatLng(44.6965, -73.4686);
+    private static final LatLng LectureHallHudson = new LatLng(44.6957, -73.4674);
+    private static final LatLng LectureHallMemorial = new LatLng(44.693110, -73.464724);
+    private static final LatLng LectureHallSibley = new LatLng(44.688763, -73.469939);
+    private static final LatLng LectureHallRedcay = new LatLng(44.696710, -73.465518);
+    private static final LatLng LectureHallYokum = new LatLng(44.694285, -73.466997);
+    private static final LatLng LectureHallBeaumont = new LatLng(44.695093, -73.467512);
+    private static final LatLng LectureHallChamplain = new LatLng(44.691874, -73.467834);
+    private static final LatLng LectureHallSaranac = new LatLng(44.692256, -73.465816);
 
     private static final LatLng ResidenceHallWhiteface = new LatLng(44.6916, -73.4680);
+    private static final LatLng ResidenceHallKent = new LatLng(44.6909, -73.4670);
+    private static final LatLng ResidenceHallMacomb = new LatLng(44.69113, -73.4668);
+    private static final LatLng ResidenceHallHarrington = new LatLng(44.693629, -73.463586);
+    private static final LatLng ResidenceHallMacdonough = new LatLng(44.693796, -73.462512);
+    private static final LatLng ResidenceHallMason = new LatLng(44.690502, -73.467837);
+    private static final LatLng ResidenceHallHood = new LatLng(44.690517, -73.468396);
+    private static final LatLng ResidenceHalldeFredenburgh = new LatLng(44.690059, -73.468567);
+    private static final LatLng ResidenceHallMoffitt = new LatLng(44.689510, -73.468353);
+    private static final LatLng ResidenceHallWilson = new LatLng(44.689388, -73.467751);
+    private static final LatLng ResidenceHallAdirondack = new LatLng(44.691356, -73.469018);
+    private static final LatLng ResidenceHallBanks = new LatLng(44.692103, -73.468932);
+
+    private static final LatLng DiningHallClinton = new LatLng(44.68981, -73.46813);
+    private static final LatLng DiningHallAlgonquin = new LatLng(44.691356, -73.468396);
+
+    private static final LatLng ServiceAreaKehoe = new LatLng(44.6943, -73.46622);
+    private static final LatLng ServiceAreaPoliceHealth = new LatLng(44.691707, -73.465561);
+    private static final LatLng ServiceAreaAngel = new LatLng(44.692713, -73.466463);
+    private static final LatLng ServiceAreaLibrary = new LatLng(44.693476, -73.467362);
+    private static final LatLng ServiceAreaArt = new LatLng(44.693568, -73.465966);
 
 
 
+    private Marker mParkingWhiteface;
+    private Marker mParkingAusable;
+    private Marker mLectureHallAusable;
+    private Marker mLectureHallChamplain;
+    private Marker mLectureHallSaranac;
+    private Marker mLectureHallYokum;
+    private Marker mLectureHallBeaumont;
+    private Marker mLectureHallMemorial;
+    private Marker mLectureHallSibley;
+    private Marker mLectureHallRedcay;
+    private Marker mLectureHallWard;
+    private Marker mLectureHallHawkins;
+    private Marker mLectureHallHudson;
+    private Marker mResidenceHallWhiteface;
+    private Marker mResidenceHallKent;
+    private Marker mResidenceHallMacomb;
+    private Marker mDiningHallClinton;
+    private Marker mDiningHallAlgonquin;
+    private Marker mServiceAreaKehoe;
+    private Marker mServiceAreaAngel;
+    private Marker mServiceAreaArt;
+    private Marker mServiceAreaLibrary;
+    private Marker mServiceAreaPoliceHealth;
+    private Marker mResidenceHallHarrington;
+    private Marker mResidenceHallMacdonough;
+    private Marker mResidenceHallMason;
+    private Marker mResidenceHallHood;
+    private Marker mResidenceHalldeFredenburgh;
+    private Marker mResidenceHallMoffitt;
+    private Marker mResidenceHallWilson;
+    private Marker mResidenceHallAdirondack;
+    private Marker mResidenceHallBanks;
 
 
 
@@ -104,6 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -115,7 +181,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //get the spinner from the xml.
         Spinner dropdown = findViewById(R.id.spinner);
         //create a list of items for the spinner.
-        String[] items = new String[]{"GO TO...","Home", "Edit Schedule", "View Schedule", "Mark Parking","Mark Lecture Halls", "Mark Residence Halls"};
+        String[] items = new String[]{"GO TO...","Home", "Edit Schedule", "View Schedule", "Mark Parking","Mark Lecture Halls", "Mark Residence Halls", "Mark Dining Halls", "Mark Service Areas"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -135,6 +201,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         addParking =0;
                         addLectureHall=0;
                         addResidenceHall=0;
+                        addServiceArea=0;
+                        addDiningHall=0;
                         Intent intent = new Intent(MapsActivity.this,MainActivity.class);
                         startActivity(intent);
                         break;
@@ -149,6 +217,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             addParking= 0;
                             addLectureHall=0;
                             addResidenceHall=0;
+                            addServiceArea=0;
+                            addDiningHall=0;
                             startActivity(l);
                         }
                     case "View Schedule":
@@ -161,6 +231,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             addParking=0;
                             addLectureHall=0;
                             addResidenceHall=0;
+                            addServiceArea=0;
+                            addDiningHall=0;
                             startActivity(intent1);
                         }
 
@@ -182,6 +254,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         startActivity(intent4);
                         break;
 
+                    case "Mark Service Areas":
+                        addServiceArea += 1;
+                        Intent intent5 = new Intent(MapsActivity.this,MapsActivity.class);
+                        startActivity(intent5);
+                        break;
+
+                    case "Mark Dining Halls":
+                        addDiningHall += 1;
+                        Intent intent6 = new Intent(MapsActivity.this,MapsActivity.class);
+                        startActivity(intent6);
+                        break;
 
 
 
@@ -230,9 +313,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             addParking = 0;
             addLectureHall =0;
             addResidenceHall =0;
+            addServiceArea=0;
+            addDiningHall=0;
             resetMap();
         });
     }
+
 
     private void fixGoogleMapBug() {
         SharedPreferences googleBug = getSharedPreferences("google_bug", Context.MODE_PRIVATE);
@@ -243,20 +329,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera.
      */
+
     public void onMapSearch(View view){
-        EditText locationSearch = findViewById(R.id.editText);
-        String location = locationSearch.getText().toString();
-        List<Address> addressList = null;
+        // Create a new instance of Intent to start DetailActivity
+        final Intent intent = new Intent(this, MapSearch.class);
 
-        Geocoder geocoder = new Geocoder(this);
-        try {
-            addressList = geocoder.getFromLocationName(location, 1);
-
+<<<<<<< HEAD
+        // Start DetailActivity with the request code
+        startActivityForResult(intent, REQUEST_CODE);
+=======
         } catch (Exception e) {
             Toast.makeText(this, "Please Input A Location", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
@@ -267,6 +354,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.addMarker(new MarkerOptions().position(searchedLatLng).title(location).snippet(locationSnippet));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(searchedLatLng));
         }
+>>>>>>> fa90837667f42180db093ca9096b93cfad0b4506
     }
 
     @Override
@@ -336,6 +424,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bitmap residenceHallMarker = Bitmap.createScaledBitmap(b2, markerWidth, markerHeight, false);
         BitmapDescriptor smallResidenceIcon = BitmapDescriptorFactory.fromBitmap(residenceHallMarker);
 
+        Bitmap b3 = BitmapFactory.decodeResource(getResources(), R.drawable. dining);
+        Bitmap diningHallMarker = Bitmap.createScaledBitmap(b3, markerWidth, markerHeight, false);
+        BitmapDescriptor smallDiningIcon = BitmapDescriptorFactory.fromBitmap(diningHallMarker);
+
+        Bitmap b4 = BitmapFactory.decodeResource(getResources(), R.drawable. service);
+        Bitmap serviceAreaMarker = Bitmap.createScaledBitmap(b4, markerWidth, markerHeight, false);
+        BitmapDescriptor smallServiceIcon = BitmapDescriptorFactory.fromBitmap(serviceAreaMarker);
+
 
 
 
@@ -371,6 +467,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .snippet(locationSnippet));
             mLectureHallHawkins.setTag(0);
 
+            mLectureHallHudson = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallHudson)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Hudson Hall + Annex"));
+            mLectureHallHudson.setTag(0);
+
+            mLectureHallWard = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallWard)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Ward Hall"));
+            mLectureHallWard.setTag(0);
+
+            mLectureHallMemorial = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallMemorial)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Memorial Hall"));
+            mLectureHallMemorial.setTag(0);
+
+            mLectureHallRedcay = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallRedcay)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Redcay Hall"));
+            mLectureHallRedcay.setTag(0);
+
+            mLectureHallSibley = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallSibley)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Sibley Hall"));
+            mLectureHallSibley.setTag(0);
+
+            mLectureHallYokum = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallYokum)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Yokum Hall"));
+            mLectureHallYokum.setTag(0);
+
+            mLectureHallBeaumont = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallBeaumont)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Beaumont Hall"));
+            mLectureHallBeaumont.setTag(0);
+
+            mLectureHallChamplain = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallChamplain)
+                    .icon(BitmapDescriptorFactory.fromBitmap(lectureHallMarker))
+                    .title("Champlain Valley Hall"));
+            mLectureHallChamplain.setTag(0);
+
 
         }
 
@@ -381,6 +525,130 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .title("Whiteface Hall")
                     .snippet(locationSnippet));
             mResidenceHallWhiteface.setTag(0);
+
+            mResidenceHallKent = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallKent)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Kent Hall"));
+            mResidenceHallKent.setTag(0);
+
+            mResidenceHallMacomb = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallMacomb)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Macomb Hall"));
+            mResidenceHallMacomb.setTag(0);
+
+            mResidenceHallHarrington = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallHarrington)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Harrington Hall"));
+            mResidenceHallHarrington.setTag(0);
+
+            mResidenceHallMacdonough = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallMacdonough)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Macdonough Hall"));
+            mResidenceHallMacdonough.setTag(0);
+
+            mResidenceHallMason = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallMason)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Mason Hall"));
+            mResidenceHallMason.setTag(0);
+
+            mResidenceHallHood = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallHood)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Hood Hall"));
+            mResidenceHallHood.setTag(0);
+
+            mResidenceHalldeFredenburgh = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHalldeFredenburgh)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("deFredenburgh Hall"));
+            mResidenceHalldeFredenburgh.setTag(0);
+
+            mResidenceHallMoffitt = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallMoffitt)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Moffitt Hall"));
+            mResidenceHallMoffitt.setTag(0);
+
+            mResidenceHallWilson = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallWilson)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Wilson Hall"));
+            mResidenceHallWilson.setTag(0);
+
+            mResidenceHallAdirondack = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallAdirondack)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Adirondack Hall"));
+            mResidenceHallAdirondack.setTag(0);
+
+            mResidenceHallBanks = mMap.addMarker(new MarkerOptions()
+                    .position(ResidenceHallBanks)
+                    .icon(BitmapDescriptorFactory.fromBitmap(residenceHallMarker))
+                    .title("Banks Hall"));
+            mResidenceHallBanks.setTag(0);
+
+
+        }
+
+        if (addDiningHall >=1){
+            mDiningHallClinton = mMap.addMarker(new MarkerOptions()
+                    .position(DiningHallClinton)
+                    .icon(BitmapDescriptorFactory.fromBitmap(diningHallMarker))
+                    .title("Clinton Dining Hall"));
+            mDiningHallClinton.setTag(0);
+
+            mDiningHallAlgonquin = mMap.addMarker(new MarkerOptions()
+                    .position(DiningHallAlgonquin)
+                    .icon(BitmapDescriptorFactory.fromBitmap(diningHallMarker))
+                    .title("Algonquin Dining Hall"));
+            mDiningHallAlgonquin.setTag(0);
+
+
+        }
+
+
+
+        if (addServiceArea >=1){
+            mServiceAreaKehoe = mMap.addMarker(new MarkerOptions()
+                    .position(ServiceAreaKehoe)
+                    .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .title("Kehoe Administration Building"));
+            mServiceAreaKehoe.setTag(0);
+
+            mServiceAreaAngel = mMap.addMarker(new MarkerOptions()
+                    .position(ServiceAreaAngel)
+                    .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .title("Angell College Center"));
+            mServiceAreaAngel.setTag(0);
+
+            mServiceAreaPoliceHealth = mMap.addMarker(new MarkerOptions()
+                    .position(ServiceAreaPoliceHealth)
+                    .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .title("Health Center/University Police"));
+            mServiceAreaPoliceHealth.setTag(0);
+
+            mServiceAreaLibrary = mMap.addMarker(new MarkerOptions()
+                    .position(ServiceAreaLibrary)
+                    .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .title("Feinberg Library"));
+            mServiceAreaLibrary.setTag(0);
+
+            mServiceAreaArt = mMap.addMarker(new MarkerOptions()
+                    .position(ServiceAreaArt)
+                    .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .title("Myers Fine Arts Building"));
+            mServiceAreaArt.setTag(0);
+
+            mLectureHallSaranac = mMap.addMarker(new MarkerOptions()
+                    .position(LectureHallSaranac)
+                    .icon(BitmapDescriptorFactory.fromBitmap(serviceAreaMarker))
+                    .title("Saranac Hall"));
+            mLectureHallSaranac.setTag(0);
         }
 
 
@@ -389,7 +657,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(this);
         mMap.setOnPolylineClickListener(this);
         LatLng one = new LatLng(44.6960, -73.4669);
-        LatLng two = new LatLng(44.6920, -73.46);
+        LatLng two = new LatLng(44.687, -73.46);
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
@@ -414,6 +682,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // First we need to check if the requestCode matches the one we used.
+        if(requestCode == REQUEST_CODE) {
+
+
+            if(resultCode == Activity.RESULT_OK) {
+                // Get the result from the returned Intent
+                final String result = data.getStringExtra(MapSearch.EXTRA_DATA);
+                Toast.makeText(MapsActivity.this, result,
+                        Toast.LENGTH_LONG).show();
+
+                }
+
+            } else {
+
+            }
+        }
+
 
     @Override
     public void onInfoWindowClick(final Marker marker) {
