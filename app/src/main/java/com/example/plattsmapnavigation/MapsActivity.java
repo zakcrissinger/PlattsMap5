@@ -90,8 +90,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-    private static final LatLng ParkingWhiteface = new LatLng(44.6928, -73.4688);
-    private static final LatLng ParkingAusable = new LatLng(44.6969, -73.4686);
+    private static final LatLng OffParkingWhiteface = new LatLng(44.6928, -73.4688);
+    private static final LatLng OffParkingAusable = new LatLng(44.6969, -73.4686);
+    private static final LatLng OffParkingHawkins = new LatLng(44.697808, -73.465926);
+    private static final LatLng OffParkingMyers = new LatLng(44.694079, -73.464936);
+    private static final LatLng OffParkingRedcay = new LatLng(44.696306, -73.465430);
+    private static final LatLng OffParkingBeaumont = new LatLng(44.694323, -73.468339);
+    private static final LatLng OnParkingSibley = new LatLng(44.688290, -73.468079);
+    private static final LatLng OnParkingHarrington = new LatLng(44.688290, -73.468079);
+    private static final LatLng OnParkingMacD = new LatLng(44.693385, -73.462324);
+
 
     public static final LatLng LectureHallAusable = new LatLng(44.6975, -73.4686);
     public static final LatLng LectureHallHawkins = new LatLng(44.6970, -73.4674);
@@ -131,6 +139,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private Marker mParkingWhiteface;
     private Marker mParkingAusable;
+    private Marker mParkingHawkins;
+    private Marker mParkingMyers;
+    private Marker mParkingRedcay;
+    private Marker mParkingBeaumont;
+    private Marker mParkingSibley;
+    private Marker mParkingHarrington;
+    private Marker mParkingMacD;
     private Marker mLectureHallAusable;
     private Marker mLectureHallChamplain;
     private Marker mLectureHallSaranac;
@@ -228,7 +243,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             startActivity(l);
                         }
                         break;
-                        
+
                     case "View Schedule":
 
                         if (SignInStatus.SignedIn == false){
@@ -470,19 +485,71 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         if (addParking >=1) {
-            mParkingWhiteface = mMap.addMarker(new MarkerOptions()
-                    .position(ParkingWhiteface)
-                    .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
-                    .title("Off Campus Parking")
-                    .snippet(locationSnippet));
-            mParkingWhiteface.setTag(0);
+            switch(itemselector) {
+                case 0:
+                    mParkingWhiteface = mMap.addMarker(new MarkerOptions()
+                            .position(OffParkingWhiteface)
+                            .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                            .title("Off Campus Parking")
+                            .snippet(locationSnippet));
+                    mParkingWhiteface.setTag(0);
 
-            mParkingAusable = mMap.addMarker(new MarkerOptions()
-                    .position(ParkingAusable)
-                    .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
-                    .title("Off Campus Parking")
-                    .snippet(locationSnippet));
-            mParkingAusable.setTag(0);
+                    mParkingAusable = mMap.addMarker(new MarkerOptions()
+                            .position(OffParkingAusable)
+                            .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                            .title("Off Campus Parking")
+                            .snippet(locationSnippet));
+                    mParkingAusable.setTag(0);
+
+                    mParkingHawkins = mMap.addMarker(new MarkerOptions()
+                            .position(OffParkingHawkins)
+                            .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                            .title("Off Campus Parking")
+                            .snippet(locationSnippet));
+                    mParkingHawkins.setTag(0);
+
+                    mParkingMyers = mMap.addMarker(new MarkerOptions()
+                            .position(OffParkingMyers)
+                            .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                            .title("Off Campus Parking")
+                            .snippet(locationSnippet));
+                    mParkingMyers.setTag(0);
+
+                    mParkingBeaumont = mMap.addMarker(new MarkerOptions()
+                            .position(OffParkingBeaumont)
+                            .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                            .title("Off Campus Parking")
+                            .snippet(locationSnippet));
+                    mParkingBeaumont.setTag(0);
+
+                    mParkingRedcay = mMap.addMarker(new MarkerOptions()
+                            .position(OffParkingRedcay)
+                            .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                            .title("Off Campus Parking")
+                            .snippet(locationSnippet));
+                    mParkingRedcay.setTag(0);
+
+                    mParkingSibley = mMap.addMarker(new MarkerOptions()
+                            .position(OnParkingSibley)
+                            .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                            .title("On Campus Parking")
+                            .snippet(locationSnippet));
+                    mParkingSibley.setTag(0);
+
+                    mParkingHarrington = mMap.addMarker(new MarkerOptions()
+                            .position(OnParkingHarrington)
+                            .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                            .title("On Campus Parking")
+                            .snippet(locationSnippet));
+                    mParkingHarrington.setTag(0);
+
+                    mParkingMacD = mMap.addMarker(new MarkerOptions()
+                            .position(OnParkingMacD)
+                            .icon(BitmapDescriptorFactory.fromBitmap(parkingMarker))
+                            .title("On Campus Parking")
+                            .snippet(locationSnippet));
+                    mParkingMacD.setTag(0);
+            }
 
         }
 
